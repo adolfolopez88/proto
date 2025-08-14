@@ -1,0 +1,92 @@
+<div class="user-management-container p-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Gestión de Usuarios</h1>
+      <p class="text-gray-600 mt-1">Sistema CRUD completo con Firebase Authentication</p>
+    </div>
+    <div class="flex gap-3">
+      <button 
+        mat-raised-button 
+        color="primary"
+        (click)="openCreateUserDialog()"
+        [disabled]="loading">
+        <mat-icon>add</mat-icon>
+        Nuevo Usuario
+      </button>
+      <button 
+        mat-stroked-button 
+        (click)="onRefresh()"
+        [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <mat-card class="p-4">
+      <div class="flex items-center">
+        <mat-icon class="text-blue-500 mr-3">people</mat-icon>
+        <div>
+          <p class="text-sm text-gray-600">Total Usuarios</p>
+          <p class="text-2xl font-bold">{{ totalUsers }}</p>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="p-4">
+      <div class="flex items-center">
+        <mat-icon class="text-green-500 mr-3">people_outline</mat-icon>
+        <div>
+          <p class="text-sm text-gray-600">Usuarios Activos</p>
+          <p class="text-2xl font-bold">{{ users.length }}</p>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="p-4">
+      <div class="flex items-center">
+        <mat-icon class="text-orange-500 mr-3">admin_panel_settings</mat-icon>
+        <div>
+          <p class="text-sm text-gray-600">Administradores</p>
+          <p class="text-2xl font-bold">{{ getAdminCount() }}</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- User List Component -->
+  <mat-card class="overflow-hidden">
+    <mat-card-header class="p-4">
+      <mat-card-title>
+        <div class="flex items-center justify-between">
+          <span>Lista de Usuarios</span>
+          
+          <mat-chip color="primary" selected>{{ users.length }} usuarios</mat-chip>
+          
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="p-0">
+      <app-user-list
+        [users]="users"
+        [loading]="loading"
+        (userSelect)="onUserSelect($event)"
+        (userEdit)="onUserEdit($event)"
+        (userDelete)="onUserDelete($event)"
+        (toggleStatus)="toggleUserStatus($event)">
+      </app-user-list>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Loading Overlay -->
+  <div *ngIf="loading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg flex items-center space-x-4">
+      <mat-progress-spinner diameter="32" mode="indeterminate"></mat-progress-spinner>
+      <span class="text-lg">Procesando...</span>
+    </div>
+  </div>
+</div>

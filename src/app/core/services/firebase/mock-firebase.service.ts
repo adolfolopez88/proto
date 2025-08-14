@@ -19,18 +19,10 @@ export class MockFirebaseService {
             isActive: true,
             createdAt: new Date('2024-01-01'),
             updatedAt: new Date('2024-01-01'),
-            lastLoginAt: new Date()
-        },
-        {
-            id: '2',
-            email: 'user@example.com',
-            displayName: 'Regular User',
-            firstName: 'Regular',
-            lastName: 'User',
-            role: 'user',
-            isActive: true,
-            createdAt: new Date('2024-01-02'),
-            updatedAt: new Date('2024-01-02')
+            lastLoginAt: new Date(),
+            phone: '933761400',
+            bio: 'NO APLICA',
+            address: "NO APLICA"
         }
     ];
 

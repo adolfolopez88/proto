@@ -77,6 +77,7 @@ export const appRoutes: Route[] = [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
             {path: 'firebase-example', loadChildren: () => import('app/modules/admin/example/firebase-example/firebase-example.module').then(m => m.FirebaseExampleModule)},
             {path: 'firebase-migration', loadChildren: () => import('app/modules/admin/example/firebase-migration/firebase-migration.module').then(m => m.FirebaseMigrationModule)},
+            {path: 'user-management', loadChildren: () => import('app/modules/admin/user-management/user-management.module').then(m => m.UserManagementModule)},
         ]
     },
 

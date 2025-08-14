@@ -93,7 +93,7 @@ export class UserSimpleService {
             const filters: QueryFilter[] = [
                 { field: 'isActive', operator: '==', value: true }
             ];
-            
+        
             const users = await this.firebaseService.getDocuments(this.collectionName, filters);
             return users as User[];
         } catch (error) {
@@ -140,6 +140,7 @@ export class UserSimpleService {
     async getUserCount(): Promise<number> {
         try {
             const users = await this.firebaseService.getDocuments(this.collectionName);
+    
             return users.length;
         } catch (error) {
             console.error('Error getting user count:', error);

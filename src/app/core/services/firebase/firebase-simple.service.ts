@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { User } from '../../models/user.model';
+import { firstValueFrom } from 'rxjs';
 
 export interface QueryFilter {
     field: string;
@@ -74,14 +75,19 @@ export class FirebaseSimpleService {
     }
     
     async getDocuments(collectionName: string, filters: QueryFilter[] = []): Promise<any[]> {
-        let query: any = this.getCollection(collectionName);
-        
+        let query: any = this.getCollection(collectionName).ref;
+    
         // Apply filters
         filters.forEach(filter => {
             query = query.where(filter.field, filter.operator, filter.value);
         });
         
-        const snapshot = await query.get().toPromise();
+        const snapshot = await query.get();
+        
+        if (!snapshot || !snapshot.docs) {
+            return [];
+        }
+        
         return snapshot.docs.map((doc: any) => ({
             id: doc.id,
             ...doc.data()
@@ -111,6 +117,11 @@ export class FirebaseSimpleService {
         });
         
         return query.onSnapshot((snapshot: any) => {
+            if (!snapshot || !snapshot.docs) {
+                callback([]);
+                return;
+            }
+            
             const docs = snapshot.docs.map((doc: any) => ({
                 id: doc.id,
                 ...doc.data()

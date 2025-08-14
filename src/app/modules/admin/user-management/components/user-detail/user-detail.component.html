@@ -1,0 +1,255 @@
+<div class="user-detail-dialog">
+  <div class="dialog-header">
+    <h2 mat-dialog-title class="text-2xl font-bold">Detalles del Usuario</h2>
+    <button mat-icon-button (click)="onClose()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div mat-dialog-content class="dialog-content">
+    <!-- User Profile Section -->
+    <div class="profile-section">
+      <div class="profile-header">
+        <div class="avatar-container">
+          <img 
+            *ngIf="data.user.avatar" 
+            [src]="data.user.avatar" 
+            [alt]="getUserDisplayName()"
+            class="avatar-image">
+          <div 
+            *ngIf="!data.user.avatar"
+            class="avatar-placeholder">
+            {{ getUserDisplayName().charAt(0).toUpperCase() }}
+          </div>
+          <div class="status-indicator" [class.active]="data.user.isActive" [class.inactive]="!data.user.isActive">
+            <mat-icon>{{ data.user.isActive ? 'check_circle' : 'cancel' }}</mat-icon>
+          </div>
+        </div>
+
+        <div class="profile-info">
+          <h3 class="user-name">{{ getUserDisplayName() }}</h3>
+          <p class="user-email">{{ data.user.email }}</p>
+          <div class="user-badges">
+            <mat-chip 
+              [color]="getRoleColor(data.user.role)"
+              [selected]="true">
+              {{ getRoleLabel(data.user.role) }}
+            </mat-chip>
+            <mat-chip 
+              [color]="data.user.isActive ? 'primary' : ''"
+              [selected]="data.user.isActive">
+              {{ data.user.isActive ? 'Activo' : 'Inactivo' }}
+            </mat-chip>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personal Information -->
+    <div class="info-section">
+      <h4 class="section-title">
+        <mat-icon>person</mat-icon>
+        Información Personal
+      </h4>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Nombre completo</label>
+          <div class="info-value">
+            <span>{{ data.user.firstName }} {{ data.user.lastName }}</span>
+            <button 
+              mat-icon-button 
+              (click)="copyToClipboard(data.user.firstName + ' ' + data.user.lastName)"
+              matTooltip="Copiar al portapapeles">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="info-item" *ngIf="data.user.displayName">
+          <label>Nombre para mostrar</label>
+          <div class="info-value">
+            <span>{{ data.user.displayName }}</span>
+            <button 
+              mat-icon-button 
+              (click)="copyToClipboard(data.user.displayName)"
+              matTooltip="Copiar al portapapeles">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>Correo electrónico</label>
+          <div class="info-value">
+            <span>{{ data.user.email }}</span>
+            <div class="action-buttons">
+              <button 
+                mat-icon-button 
+                (click)="copyToClipboard(data.user.email)"
+                matTooltip="Copiar al portapapeles">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+              <button 
+                mat-icon-button 
+                (click)="sendEmail()"
+                matTooltip="Enviar email">
+                <mat-icon>email</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-item" *ngIf="data.user.phone">
+          <label>Teléfono</label>
+          <div class="info-value">
+            <span>{{ data.user.phone }}</span>
+            <div class="action-buttons">
+              <button 
+                mat-icon-button 
+                (click)="copyToClipboard(data.user.phone)"
+                matTooltip="Copiar al portapapeles">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+              <button 
+                mat-icon-button 
+                (click)="makePhoneCall()"
+                matTooltip="Llamar">
+                <mat-icon>phone</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-item" *ngIf="data.user.address">
+          <label>Dirección</label>
+          <div class="info-value">
+            <span>{{ data.user.address }}</span>
+            <button 
+              mat-icon-button 
+              (click)="copyToClipboard(data.user.address)"
+              matTooltip="Copiar al portapapeles">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Information -->
+    <div class="info-section">
+      <h4 class="section-title">
+        <mat-icon>settings</mat-icon>
+        Información del Sistema
+      </h4>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>ID de Usuario</label>
+          <div class="info-value">
+            <code>{{ data.user.id }}</code>
+            <button 
+              mat-icon-button 
+              (click)="copyToClipboard(data.user.id || '')"
+              matTooltip="Copiar al portapapeles">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>Rol del usuario</label>
+          <div class="info-value">
+            <mat-chip 
+              [color]="getRoleColor(data.user.role)"
+              [selected]="true">
+              {{ getRoleLabel(data.user.role) }}
+            </mat-chip>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>Estado</label>
+          <div class="info-value">
+            <div class="status-display">
+              <div class="status-dot" [class.active]="data.user.isActive" [class.inactive]="!data.user.isActive"></div>
+              <span [class.text-green-600]="data.user.isActive" [class.text-red-600]="!data.user.isActive">
+                {{ data.user.isActive ? 'Activo' : 'Inactivo' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>Fecha de creación</label>
+          <div class="info-value">
+            <span>{{ formatDate(data.user.createdAt) }}</span>
+          </div>
+        </div>
+
+        <div class="info-item" *ngIf="data.user.updatedAt">
+          <label>Última actualización</label>
+          <div class="info-value">
+            <span>{{ formatDate(data.user.updatedAt) }}</span>
+          </div>
+        </div>
+
+        <div class="info-item" *ngIf="data.user.lastLoginAt">
+          <label>Último acceso</label>
+          <div class="info-value">
+            <span>{{ formatDate(data.user.lastLoginAt) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="info-section" *ngIf="data.user.bio">
+      <h4 class="section-title">
+        <mat-icon>description</mat-icon>
+        Información Adicional
+      </h4>
+      <div class="bio-content">
+        <p>{{ data.user.bio }}</p>
+      </div>
+    </div>
+
+    <!-- Activity Summary -->
+    <div class="info-section">
+      <h4 class="section-title">
+        <mat-icon>timeline</mat-icon>
+        Resumen de Actividad
+      </h4>
+      <div class="activity-summary">
+        <div class="activity-item">
+          <mat-icon class="activity-icon">account_circle</mat-icon>
+          <div class="activity-info">
+            <h5>Cuenta creada</h5>
+            <p>{{ formatDate(data.user.createdAt) }}</p>
+          </div>
+        </div>
+
+        <div class="activity-item" *ngIf="data.user.lastLoginAt">
+          <mat-icon class="activity-icon">login</mat-icon>
+          <div class="activity-info">
+            <h5>Último acceso</h5>
+            <p>{{ formatDate(data.user.lastLoginAt) }}</p>
+          </div>
+        </div>
+
+        <div class="activity-item" *ngIf="data.user.updatedAt">
+          <mat-icon class="activity-icon">edit</mat-icon>
+          <div class="activity-info">
+            <h5>Perfil actualizado</h5>
+            <p>{{ formatDate(data.user.updatedAt) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-raised-button color="primary" (click)="onClose()">
+      <mat-icon>check</mat-icon>
+      Cerrar
+    </button>
+  </div>
+</div>
