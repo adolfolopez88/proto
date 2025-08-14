@@ -1,0 +1,195 @@
+<div class="generic-table-container">
+    <!-- Table Toolbar -->
+    <div class="table-toolbar" *ngIf="config.filtering || config.exportable">
+        <div class="toolbar-left">
+            <!-- Global search -->
+            <mat-form-field appearance="outline" *ngIf="config.filtering" class="search-field">
+                <mat-label>Search</mat-label>
+                <input matInput 
+                       #searchInput
+                       (keyup)="applyFilter('global', searchInput.value)"
+                       placeholder="Search all columns...">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+        
+        <div class="toolbar-right">
+            <!-- Export button -->
+            <button mat-stroked-button 
+                    *ngIf="config.exportable"
+                    [matMenuTriggerFor]="exportMenu">
+                <mat-icon>download</mat-icon>
+                Export
+            </button>
+            
+            <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item (click)="exportData('csv')">
+                    <mat-icon>description</mat-icon>
+                    CSV
+                </button>
+                <button mat-menu-item (click)="exportData('excel')">
+                    <mat-icon>table_chart</mat-icon>
+                    Excel
+                </button>
+                <button mat-menu-item (click)="exportData('pdf')">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    PDF
+                </button>
+            </mat-menu>
+
+            <!-- Density toggle -->
+            <button mat-icon-button [matMenuTriggerFor]="densityMenu" matTooltip="Table density">
+                <mat-icon>view_comfortable</mat-icon>
+            </button>
+            
+            <mat-menu #densityMenu="matMenu">
+                <button mat-menu-item (click)="config.density = 'comfortable'">
+                    <mat-icon>view_comfortable</mat-icon>
+                    Comfortable
+                </button>
+                <button mat-menu-item (click)="config.density = 'standard'">
+                    <mat-icon>view_module</mat-icon>
+                    Standard
+                </button>
+                <button mat-menu-item (click)="config.density = 'compact'">
+                    <mat-icon>view_compact</mat-icon>
+                    Compact
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+
+    <!-- Selection Info -->
+    <div class="selection-info" *ngIf="config.selectable && selection.selected.length > 0">
+        <span>{{selection.selected.length}} item(s) selected</span>
+        <button mat-button (click)="selection.clear()">Clear selection</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper" [class]="'density-' + (config.density || 'standard')">
+        <table mat-table 
+               [dataSource]="dataSource" 
+               [class.loading]="loading"
+               matSort
+               (matSortChange)="onSortChange($event)">
+
+            <!-- Selection Column -->
+            <ng-container matColumnDef="select" *ngIf="config.selectable">
+                <th mat-header-cell *matHeaderCellDef class="select-column">
+                    <mat-checkbox *ngIf="config.multiSelect"
+                                  (change)="$event ? masterToggle() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                  [aria-label]="'Select all'">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row" class="select-column">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? toggleRow(row) : null"
+                                  [checked]="isSelected(row)"
+                                  [aria-label]="'Select row'">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Dynamic Columns -->
+            <ng-container *ngFor="let column of config.columns" [matColumnDef]="column.key">
+                <th mat-header-cell 
+                    *matHeaderCellDef 
+                    [mat-sort-header]="column.sortable ? column.key : undefined"
+                    [style.width]="column.width"
+                    [style.text-align]="column.align || 'left'">
+                    
+                    <div class="header-content">
+                        <span>{{ column.label }}</span>
+                        
+                        <!-- Column filter -->
+                        <mat-icon class="filter-icon" 
+                                  *ngIf="column.filterable"
+                                  [matMenuTriggerFor]="filterMenu"
+                                  (click)="$event.stopPropagation()">
+                            filter_list
+                        </mat-icon>
+                        
+                        <mat-menu #filterMenu="matMenu" (click)="$event.stopPropagation()">
+                            <div mat-menu-item class="filter-content">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Filter {{ column.label }}</mat-label>
+                                    <input matInput 
+                                           #filterInput
+                                           (keyup.enter)="applyFilter(column.key, filterInput.value)"
+                                           [value]="filters[column.key] || ''">
+                                    <button mat-icon-button 
+                                            matSuffix 
+                                            (click)="applyFilter(column.key, filterInput.value)">
+                                        <mat-icon>search</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                                <button mat-button 
+                                        (click)="applyFilter(column.key, ''); filterInput.value = ''">
+                                    Clear
+                                </button>
+                            </div>
+                        </mat-menu>
+                    </div>
+                </th>
+                
+                <td mat-cell 
+                    *matCellDef="let row" 
+                    [style.text-align]="column.align || 'left'"
+                    (click)="onRowClick(row)">
+                    
+                    <!-- Regular content -->
+                    <span *ngIf="column.type !== 'actions'">
+                        {{ formatCellValue(row, column) }}
+                    </span>
+                    
+                    <!-- Actions column -->
+                    <div *ngIf="column.type === 'actions'" class="actions-cell">
+                        <button *ngFor="let action of column.actions" 
+                                mat-icon-button 
+                                [color]="getActionColor(action)"
+                                [disabled]="isActionDisabled(action, row)"
+                                [style.display]="isActionVisible(action, row) ? 'inline-block' : 'none'"
+                                [matTooltip]="action.label"
+                                (click)="onActionClick(action.key, row); $event.stopPropagation()">
+                            <mat-icon>{{ action.icon }}</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- Header and Row definitions -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row 
+                *matRowDef="let row; columns: displayedColumns;" 
+                class="table-row"
+                [class.selected]="isSelected(row)">
+            </tr>
+
+            <!-- No data row -->
+            <tr class="no-data-row" *matNoDataRow>
+                <td [attr.colspan]="displayedColumns.length" class="no-data-cell">
+                    <div class="no-data-content">
+                        <mat-icon>inbox</mat-icon>
+                        <p>No data available</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Loading overlay -->
+        <div class="loading-overlay" *ngIf="loading">
+            <mat-spinner diameter="40"></mat-spinner>
+        </div>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator *ngIf="config.pagination?.enabled"
+                   [pageSizeOptions]="config.pagination.pageSizeOptions"
+                   [pageSize]="config.pagination.pageSize"
+                   [length]="totalCount"
+                   (page)="onPageChange($event)"
+                   showFirstLastButtons>
+    </mat-paginator>
+</div>

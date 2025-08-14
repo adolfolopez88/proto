@@ -1,0 +1,239 @@
+<form [formGroup]="form" 
+      (ngSubmit)="onSubmit()"
+      class="generic-form"
+      [class]="'layout-' + (config.layout || 'vertical')">
+    
+    <!-- Form Fields Container -->
+    <div class="form-fields" 
+         [style.grid-template-columns]="getGridColumns()"
+         [class.grid-layout]="config.layout === 'grid'">
+        
+        <div *ngFor="let field of visibleFields" 
+             class="form-field"
+             [class.full-width]="field.type === 'textarea'">
+            
+            <!-- Text Input -->
+            <mat-form-field *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password'" 
+                            [appearance]="getFieldAppearance(field)" 
+                            class="full-width">
+                <mat-label>{{ field.label }}</mat-label>
+                <input matInput 
+                       [formControlName]="field.key"
+                       [type]="field.type"
+                       [placeholder]="field.placeholder || ''"
+                       [readonly]="field.readonly">
+                <mat-icon matPrefix *ngIf="field.icon">{{ field.icon }}</mat-icon>
+                <span matPrefix *ngIf="field.prefix">{{ field.prefix }}</span>
+                <span matSuffix *ngIf="field.suffix">{{ field.suffix }}</span>
+                <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+                <mat-error *ngIf="isFieldInvalid(field)">
+                    {{ getFieldError(field) }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Number Input -->
+            <mat-form-field *ngIf="field.type === 'number'" 
+                            [appearance]="getFieldAppearance(field)" 
+                            class="full-width">
+                <mat-label>{{ field.label }}</mat-label>
+                <input matInput 
+                       type="number"
+                       [formControlName]="field.key"
+                       [placeholder]="field.placeholder || ''"
+                       [min]="field.min"
+                       [max]="field.max"
+                       [step]="field.step || 1"
+                       [readonly]="field.readonly">
+                <mat-icon matPrefix *ngIf="field.icon">{{ field.icon }}</mat-icon>
+                <span matSuffix *ngIf="field.suffix">{{ field.suffix }}</span>
+                <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+                <mat-error *ngIf="isFieldInvalid(field)">
+                    {{ getFieldError(field) }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Textarea -->
+            <mat-form-field *ngIf="field.type === 'textarea'" 
+                            [appearance]="getFieldAppearance(field)" 
+                            class="full-width">
+                <mat-label>{{ field.label }}</mat-label>
+                <textarea matInput 
+                          [formControlName]="field.key"
+                          [placeholder]="field.placeholder || ''"
+                          [rows]="field.rows || 4"
+                          [readonly]="field.readonly">
+                </textarea>
+                <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+                <mat-error *ngIf="isFieldInvalid(field)">
+                    {{ getFieldError(field) }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Select -->
+            <mat-form-field *ngIf="field.type === 'select'" 
+                            [appearance]="getFieldAppearance(field)" 
+                            class="full-width">
+                <mat-label>{{ field.label }}</mat-label>
+                <mat-select [formControlName]="field.key" 
+                            [placeholder]="field.placeholder || ''">
+                    <mat-option *ngFor="let option of field.options" 
+                                [value]="option.value"
+                                [disabled]="option.disabled">
+                        {{ option.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+                <mat-error *ngIf="isFieldInvalid(field)">
+                    {{ getFieldError(field) }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Multi Select -->
+            <mat-form-field *ngIf="field.type === 'multiselect'" 
+                            [appearance]="getFieldAppearance(field)" 
+                            class="full-width">
+                <mat-label>{{ field.label }}</mat-label>
+                <mat-select [formControlName]="field.key" 
+                            [placeholder]="field.placeholder || ''"
+                            multiple>
+                    <mat-option *ngFor="let option of field.options" 
+                                [value]="option.value"
+                                [disabled]="option.disabled">
+                        {{ option.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+                <mat-error *ngIf="isFieldInvalid(field)">
+                    {{ getFieldError(field) }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Autocomplete -->
+            <mat-form-field *ngIf="field.type === 'autocomplete'" 
+                            [appearance]="getFieldAppearance(field)" 
+                            class="full-width">
+                <mat-label>{{ field.label }}</mat-label>
+                <input matInput 
+                       [formControlName]="field.key"
+                       [placeholder]="field.placeholder || ''"
+                       [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of field.options" 
+                                [value]="option.value">
+                        {{ option.label }}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+                <mat-error *ngIf="isFieldInvalid(field)">
+                    {{ getFieldError(field) }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Date Input -->
+            <mat-form-field *ngIf="field.type === 'date'" 
+                            [appearance]="getFieldAppearance(field)" 
+                            class="full-width">
+                <mat-label>{{ field.label }}</mat-label>
+                <input matInput 
+                       [matDatepicker]="picker"
+                       [formControlName]="field.key"
+                       [placeholder]="field.placeholder || ''"
+                       [min]="field.min"
+                       [max]="field.max"
+                       [readonly]="field.readonly">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+                <mat-error *ngIf="isFieldInvalid(field)">
+                    {{ getFieldError(field) }}
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Checkbox -->
+            <div *ngIf="field.type === 'checkbox'" class="form-field-checkbox">
+                <mat-checkbox [formControlName]="field.key">
+                    {{ field.label }}
+                </mat-checkbox>
+                <div *ngIf="field.hint" class="field-hint">{{ field.hint }}</div>
+                <div *ngIf="isFieldInvalid(field)" class="field-error">
+                    {{ getFieldError(field) }}
+                </div>
+            </div>
+
+            <!-- Toggle -->
+            <div *ngIf="field.type === 'toggle'" class="form-field-toggle">
+                <mat-slide-toggle [formControlName]="field.key">
+                    {{ field.label }}
+                </mat-slide-toggle>
+                <div *ngIf="field.hint" class="field-hint">{{ field.hint }}</div>
+                <div *ngIf="isFieldInvalid(field)" class="field-error">
+                    {{ getFieldError(field) }}
+                </div>
+            </div>
+
+            <!-- Radio Group -->
+            <div *ngIf="field.type === 'radio'" class="form-field-radio">
+                <label class="field-label">{{ field.label }}</label>
+                <mat-radio-group [formControlName]="field.key" class="radio-group">
+                    <mat-radio-button *ngFor="let option of field.options" 
+                                      [value]="option.value"
+                                      [disabled]="option.disabled"
+                                      class="radio-button">
+                        {{ option.label }}
+                    </mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="field.hint" class="field-hint">{{ field.hint }}</div>
+                <div *ngIf="isFieldInvalid(field)" class="field-error">
+                    {{ getFieldError(field) }}
+                </div>
+            </div>
+
+            <!-- File Input -->
+            <div *ngIf="field.type === 'file'" class="form-field-file">
+                <label class="field-label">{{ field.label }}</label>
+                <div class="file-input-container">
+                    <input type="file" 
+                           [accept]="field.accept"
+                           (change)="onFileSelect($event, field)"
+                           #fileInput
+                           class="file-input">
+                    <button type="button" 
+                            mat-stroked-button 
+                            (click)="fileInput.click()"
+                            class="file-button">
+                        <mat-icon>attach_file</mat-icon>
+                        Choose File
+                    </button>
+                    <span class="file-name" *ngIf="getFormControl(field.key)?.value">
+                        {{ getFormControl(field.key)?.value?.name || getFormControl(field.key)?.value }}
+                    </span>
+                </div>
+                <div *ngIf="field.hint" class="field-hint">{{ field.hint }}</div>
+                <div *ngIf="isFieldInvalid(field)" class="field-error">
+                    {{ getFieldError(field) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+        <button type="submit" 
+                mat-raised-button 
+                color="primary"
+                [disabled]="loading || !isFormValid"
+                class="submit-button">
+            <mat-spinner diameter="20" *ngIf="loading" class="button-spinner"></mat-spinner>
+            {{ config.submitLabel || 'Submit' }}
+        </button>
+        
+        <button type="button" 
+                mat-button 
+                *ngIf="config.showReset !== false"
+                (click)="onReset()"
+                [disabled]="loading"
+                class="reset-button">
+            {{ config.resetLabel || 'Reset' }}
+        </button>
+    </div>
+</form>

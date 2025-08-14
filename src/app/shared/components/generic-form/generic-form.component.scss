@@ -1,0 +1,236 @@
+.generic-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    .form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        
+        &.grid-layout {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            
+            &.full-width {
+                grid-column: 1 / -1;
+            }
+            
+            .full-width {
+                width: 100%;
+            }
+        }
+    }
+    
+    // Checkbox styling
+    .form-field-checkbox {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        
+        .field-hint {
+            font-size: 12px;
+            color: var(--fuse-text-secondary);
+            margin-left: 32px;
+        }
+        
+        .field-error {
+            font-size: 12px;
+            color: var(--fuse-warn);
+            margin-left: 32px;
+        }
+    }
+    
+    // Toggle styling
+    .form-field-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        
+        .field-hint {
+            font-size: 12px;
+            color: var(--fuse-text-secondary);
+            margin-left: 44px;
+        }
+        
+        .field-error {
+            font-size: 12px;
+            color: var(--fuse-warn);
+            margin-left: 44px;
+        }
+    }
+    
+    // Radio group styling
+    .form-field-radio {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        
+        .field-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--fuse-text-default);
+            margin-bottom: 8px;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            
+            &.horizontal {
+                flex-direction: row;
+                gap: 16px;
+            }
+        }
+        
+        .field-hint {
+            font-size: 12px;
+            color: var(--fuse-text-secondary);
+        }
+        
+        .field-error {
+            font-size: 12px;
+            color: var(--fuse-warn);
+        }
+    }
+    
+    // File input styling
+    .form-field-file {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        
+        .field-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--fuse-text-default);
+        }
+        
+        .file-input-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            
+            .file-input {
+                display: none;
+            }
+            
+            .file-button {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                
+                mat-icon {
+                    font-size: 18px;
+                    width: 18px;
+                    height: 18px;
+                }
+            }
+            
+            .file-name {
+                font-size: 14px;
+                color: var(--fuse-text-secondary);
+                font-style: italic;
+            }
+        }
+        
+        .field-hint {
+            font-size: 12px;
+            color: var(--fuse-text-secondary);
+        }
+        
+        .field-error {
+            font-size: 12px;
+            color: var(--fuse-warn);
+        }
+    }
+    
+    // Form actions
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--fuse-border);
+        
+        .submit-button {
+            position: relative;
+            
+            .button-spinner {
+                position: absolute;
+                left: 50%;
+            }
+        }
+    }
+    
+    // Layout variants
+    &.layout-horizontal {
+        .form-fields {
+            .form-field {
+                flex-direction: row;
+                align-items: center;
+                gap: 16px;
+                
+                mat-form-field {
+                    flex: 1;
+                }
+                
+                .field-label {
+                    min-width: 120px;
+                    margin: 0;
+                }
+            }
+        }
+    }
+    
+    // Responsive design
+    @media (max-width: 768px) {
+        .form-fields.grid-layout {
+            grid-template-columns: 1fr !important;
+        }
+        
+        &.layout-horizontal {
+            .form-fields {
+                .form-field {
+                    flex-direction: column;
+                    align-items: stretch;
+                    
+                    .field-label {
+                        min-width: auto;
+                    }
+                }
+            }
+        }
+        
+        .form-actions {
+            flex-direction: column;
+            
+            button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+// Custom form field appearances
+.mat-mdc-form-field {
+    .mat-mdc-form-field-error {
+        font-size: 12px;
+    }
+    
+    .mat-mdc-form-field-hint {
+        font-size: 12px;
+    }
+}
+
+// Loading state
+.generic-form.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
