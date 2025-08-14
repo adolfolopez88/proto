@@ -1,5 +1,6 @@
-export interface User {
-    id?: string;
+import { BaseDocument } from '../services/firebase/firebase-real.service';
+
+export interface User extends BaseDocument {
     email: string;
     displayName?: string;
     firstName?: string;
@@ -7,8 +8,6 @@ export interface User {
     avatar?: string;
     role?: 'admin' | 'user' | 'moderator';
     isActive?: boolean;
-    createdAt?: any;
-    updatedAt?: any;
     lastLoginAt?: any;
     preferences?: {
         theme?: string;

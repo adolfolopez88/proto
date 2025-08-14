@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+/*import { Injectable, inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { BaseRepositoryService } from './base-repository.service';
 import { User } from '../../../shared/interfaces';
@@ -56,4 +56,4 @@ export class UserService extends BaseRepositoryService<User> {
             filters: [{ field: 'roles', operator: 'array-contains', value: roleId }]
         });
     }
-}
+}*/

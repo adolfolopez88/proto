@@ -1,0 +1,210 @@
+
+        <div class="flex flex-col gap-6 p-6">
+            <!-- Service Status -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4">Estado de Servicios Firebase</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 border rounded">
+                        <h3 class="font-medium mb-2">Configuración Actual</h3>
+                        <p class="text-sm">
+                            <span class="font-medium">Modo:</span>
+                            <span [ngClass]="{
+                                'text-orange-600': isUsingMock,
+                                'text-green-600': !isUsingMock
+                            }">
+                                {{isUsingMock ? 'Mock Services' : 'Firebase Real'}}
+                            </span>
+                        </p>
+                        <p class="text-sm">
+                            <span class="font-medium">Emulators:</span>
+                            <span [ngClass]="{
+                                'text-blue-600': configService.isUsingEmulators(),
+                                'text-gray-600': !configService.isUsingEmulators()
+                            }">
+                                {{configService.isUsingEmulators() ? 'Enabled' : 'Disabled'}}
+                            </span>
+                        </p>
+                    </div>
+                    
+                    <div class="p-4 border rounded">
+                        <h3 class="font-medium mb-2">Servicios Activos</h3>
+                        <p class="text-sm">
+                            <span class="font-medium">Auth:</span> 
+                            {{isUsingMock ? 'MockFirebaseService' : 'AuthFirebaseService'}}
+                        </p>
+                        <p class="text-sm">
+                            <span class="font-medium">User:</span> 
+                            {{isUsingMock ? 'UserService (Mock)' : 'UserFirebaseService'}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Controls -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4">Controles de Servicio</h3>
+                
+                <div class="flex flex-wrap gap-3">
+                    <button 
+                        mat-raised-button 
+                        color="primary"
+                        (click)="switchToMock()"
+                        [disabled]="isUsingMock">
+                        🔧 Usar Mock Services
+                    </button>
+                    
+                    <button 
+                        mat-raised-button 
+                        color="accent"
+                        (click)="switchToReal()"
+                        [disabled]="!isUsingMock">
+                        🔥 Usar Firebase Real
+                    </button>
+                    
+                    <button 
+                        mat-raised-button 
+                        color="warn"
+                        (click)="toggleEmulators()">
+                        {{configService.isUsingEmulators() ? '🔇 Disable' : '🔧 Enable'}} Emulators
+                    </button>
+                    
+                    <button 
+                        mat-stroked-button 
+                        (click)="refreshServices()">
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Service Testing -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4">Probar Servicios</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Auth Testing -->
+                    <div class="p-4 border rounded">
+                        <h4 class="font-medium mb-3">Autenticación</h4>
+                        
+                        <div class="space-y-2">
+                            <button 
+                                mat-stroked-button 
+                                class="w-full"
+                                (click)="testLogin()"
+                                [disabled]="isLoading">
+                                {{isLoading ? 'Testing...' : 'Test Login (Mock Credentials)'}}
+                            </button>
+                            
+                            <button 
+                                mat-stroked-button 
+                                class="w-full"
+                                (click)="testRegister()"
+                                [disabled]="isLoading">
+                                Test Register
+                            </button>
+                            
+                            <button 
+                                mat-stroked-button 
+                                class="w-full"
+                                (click)="testGoogleAuth()"
+                                [disabled]="isLoading">
+                                Test Google Auth
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- User Testing -->
+                    <div class="p-4 border rounded">
+                        <h4 class="font-medium mb-3">Gestión de Usuarios</h4>
+                        
+                        <div class="space-y-2">
+                            <button 
+                                mat-stroked-button 
+                                class="w-full"
+                                (click)="testGetUsers()"
+                                [disabled]="isLoading">
+                                Test Get All Users
+                            </button>
+                            
+                            <button 
+                                mat-stroked-button 
+                                class="w-full"
+                                (click)="testGetActiveUsers()"
+                                [disabled]="isLoading">
+                                Test Get Active Users
+                            </button>
+                            
+                            <button 
+                                mat-stroked-button 
+                                class="w-full"
+                                (click)="testUserStats()"
+                                [disabled]="isLoading">
+                                Test User Stats
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Results -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6" *ngIf="testResults.length > 0">
+                <h3 class="text-lg font-semibold mb-4">Resultados de Pruebas</h3>
+                
+                <div class="space-y-3 max-h-96 overflow-y-auto">
+                    <div 
+                        *ngFor="let result of testResults; trackBy: trackByIndex"
+                        class="p-3 border rounded text-sm"
+                        [ngClass]="{
+                            'border-green-300 bg-green-50': result.success,
+                            'border-red-300 bg-red-50': !result.success,
+                            'border-blue-300 bg-blue-50': result.type === 'info'
+                        }">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="font-medium">{{result.timestamp | date:'HH:mm:ss'}}</span>
+                                <span class="ml-2">{{result.action}}</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 rounded"
+                                  [ngClass]="{
+                                      'bg-green-200 text-green-800': result.success,
+                                      'bg-red-200 text-red-800': !result.success,
+                                      'bg-blue-200 text-blue-800': result.type === 'info'
+                                  }">
+                                {{result.success ? 'Success' : 'Error'}}
+                            </span>
+                        </div>
+                        
+                        <div class="mt-2" *ngIf="result.data">
+                            <pre class="text-xs bg-gray-100 p-2 rounded overflow-x-auto">{{result.data | json}}</pre>
+                        </div>
+                        
+                        <div class="mt-2 text-red-600" *ngIf="result.error">
+                            {{result.error}}
+                        </div>
+                    </div>
+                </div>
+                
+                <button 
+                    mat-stroked-button 
+                    (click)="clearResults()" 
+                    class="mt-3">
+                    Clear Results
+                </button>
+            </div>
+
+            <!-- Instructions -->
+            <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-3">📋 Instrucciones</h3>
+                <div class="text-sm space-y-2">
+                    <p><strong>Mock Services:</strong> Servicios simulados que funcionan sin Firebase real</p>
+                    <p><strong>Firebase Real:</strong> Servicios que conectan con Firebase en producción</p>
+                    <p><strong>Emulators:</strong> Firebase Emulators para desarrollo local</p>
+                    <p><strong>Para usar Firebase Real:</strong> Asegúrate de tener las dependencias correctas instaladas</p>
+                    <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded mt-3">
+                        <code class="text-xs">
+                            npm install firebase@9.23.0 @angular/fire@7.6.1
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>

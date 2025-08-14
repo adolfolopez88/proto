@@ -114,3 +114,5 @@ Esta será una aplicación que usará la infraestructura de Firebase. Usaremos e
 
 - **Direcctorio de documentacion**: crea un directorio en la raiz llamado doc
 - **Documenta cada evolutivo**: documentacion adecuada para cada paso
+
+### 14. Remplazar mock por firebase services
