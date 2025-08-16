@@ -1,0 +1,229 @@
+<form [formGroup]="form" 
+      (ngSubmit)="onSubmit()" 
+      class="dynamic-form"
+      [class]="'layout-' + (config.layout || 'vertical')"
+      [style.grid-template-columns]="config.layout === 'grid' ? getGridColumns() : null">
+
+  <div *ngFor="let field of orderedFields" 
+       class="form-field-wrapper"
+       [class]="field.className || ''"
+       [style.width]="getFieldWidth(field)"
+       [style.display]="isFieldVisible(field) ? 'block' : 'none'">
+
+    <!-- Text Input -->
+    <mat-form-field *ngIf="field.type === 'text'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput 
+             [formControlName]="field.key"
+             [placeholder]="field.placeholder || ''"
+             [readonly]="field.readonly">
+      <mat-icon matPrefix *ngIf="field.icon">{{ field.icon }}</mat-icon>
+      <span matPrefix *ngIf="field.prefix">{{ field.prefix }}</span>
+      <span matSuffix *ngIf="field.suffix">{{ field.suffix }}</span>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Email Input -->
+    <mat-form-field *ngIf="field.type === 'email'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput 
+             type="email"
+             [formControlName]="field.key"
+             [placeholder]="field.placeholder || ''"
+             [readonly]="field.readonly">
+      <mat-icon matPrefix *ngIf="field.icon">{{ field.icon }}</mat-icon>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Password Input -->
+    <mat-form-field *ngIf="field.type === 'password'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput 
+             type="password"
+             [formControlName]="field.key"
+             [placeholder]="field.placeholder || ''"
+             [readonly]="field.readonly"
+             #passwordField>
+      <button mat-icon-button 
+              matSuffix 
+              type="button"
+              (click)="passwordField.type = passwordField.type === 'password' ? 'text' : 'password'">
+        <mat-icon>{{ passwordField.type === 'password' ? 'visibility' : 'visibility_off' }}</mat-icon>
+      </button>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Number Input -->
+    <mat-form-field *ngIf="field.type === 'number'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput 
+             type="number"
+             [formControlName]="field.key"
+             [placeholder]="field.placeholder || ''"
+             [min]="field.min"
+             [max]="field.max"
+             [step]="field.step"
+             [readonly]="field.readonly">
+      <mat-icon matPrefix *ngIf="field.icon">{{ field.icon }}</mat-icon>
+      <span matPrefix *ngIf="field.prefix">{{ field.prefix }}</span>
+      <span matSuffix *ngIf="field.suffix">{{ field.suffix }}</span>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Phone Input -->
+    <mat-form-field *ngIf="field.type === 'phone'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput 
+             type="tel"
+             [formControlName]="field.key"
+             [placeholder]="field.placeholder || ''"
+             [readonly]="field.readonly">
+      <mat-icon matPrefix>phone</mat-icon>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- URL Input -->
+    <mat-form-field *ngIf="field.type === 'url'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput 
+             type="url"
+             [formControlName]="field.key"
+             [placeholder]="field.placeholder || ''"
+             [readonly]="field.readonly">
+      <mat-icon matPrefix>link</mat-icon>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Textarea -->
+    <mat-form-field *ngIf="field.type === 'textarea'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <textarea matInput 
+                [formControlName]="field.key"
+                [placeholder]="field.placeholder || ''"
+                [rows]="field.rows || 3"
+                [readonly]="field.readonly">
+      </textarea>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Select -->
+    <mat-form-field *ngIf="field.type === 'select'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <mat-select [formControlName]="field.key" 
+                  [multiple]="field.multiple || false">
+        <mat-option *ngFor="let option of field.options" 
+                    [value]="option.value"
+                    [disabled]="option.disabled">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Date Input -->
+    <mat-form-field *ngIf="field.type === 'date'" 
+                    [appearance]="field.appearance || 'outline'"
+                    [floatLabel]="field.floatLabel || 'auto'"
+                    class="w-full">
+      <mat-label>{{ field.label }}</mat-label>
+      <input matInput 
+             [matDatepicker]="picker"
+             [formControlName]="field.key"
+             [min]="field.min"
+             [max]="field.max"
+             [readonly]="field.readonly">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-hint *ngIf="field.hint">{{ field.hint }}</mat-hint>
+      <mat-error>{{ getFieldError(field) }}</mat-error>
+    </mat-form-field>
+
+    <!-- Checkbox -->
+    <div *ngIf="field.type === 'checkbox'" class="checkbox-field">
+      <mat-checkbox [formControlName]="field.key">
+        {{ field.label }}
+      </mat-checkbox>
+      <div class="field-hint" *ngIf="field.hint">{{ field.hint }}</div>
+      <div class="field-error" *ngIf="getFieldError(field)">{{ getFieldError(field) }}</div>
+    </div>
+
+    <!-- Radio Group -->
+    <div *ngIf="field.type === 'radio'" class="radio-field">
+      <label class="field-label">{{ field.label }}</label>
+      <mat-radio-group [formControlName]="field.key" class="radio-group">
+        <mat-radio-button *ngFor="let option of field.options" 
+                          [value]="option.value"
+                          [disabled]="option.disabled">
+          {{ option.label }}
+        </mat-radio-button>
+      </mat-radio-group>
+      <div class="field-hint" *ngIf="field.hint">{{ field.hint }}</div>
+      <div class="field-error" *ngIf="getFieldError(field)">{{ getFieldError(field) }}</div>
+    </div>
+
+    <!-- File Input -->
+    <div *ngIf="field.type === 'file'" class="file-field">
+      <label class="field-label">{{ field.label }}</label>
+      <input type="file" 
+             [accept]="field.accept"
+             [multiple]="field.multiple"
+             (change)="onFileChange($event, field)"
+             class="file-input">
+      <div class="field-hint" *ngIf="field.hint">{{ field.hint }}</div>
+      <div class="field-error" *ngIf="getFieldError(field)">{{ getFieldError(field) }}</div>
+    </div>
+  </div>
+
+  <!-- Form Actions -->
+  <div class="form-actions" [class]="'layout-' + (config.layout || 'vertical')">
+    <button type="button" 
+            mat-button 
+            *ngIf="config.showReset !== false"
+            (click)="onReset()"
+            [disabled]="loading">
+      {{ config.resetText || 'Reset' }}
+    </button>
+    
+    <button type="submit" 
+            mat-raised-button 
+            color="primary"
+            [disabled]="loading || (config.disabled && !form.valid)">
+      <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+      <span [style.margin-left]="loading ? '8px' : '0'">
+        {{ config.submitText || 'Submit' }}
+      </span>
+    </button>
+  </div>
+</form>

@@ -48,6 +48,8 @@ import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 // Custom Components
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
+import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 const MATERIAL_MODULES = [
     MatAutocompleteModule,
@@ -96,7 +98,9 @@ const FUSE_MODULES = [
 
 const CUSTOM_COMPONENTS = [
     GenericTableComponent,
-    GenericFormComponent
+    GenericFormComponent,
+    DynamicFormComponent,
+    ConfirmDialogComponent
 ];
 
 @NgModule({

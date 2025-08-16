@@ -31,8 +31,6 @@ export class FirebaseConfigService {
     }
 
     isUsingMockServices(): boolean {
-
-          console.log(this.config);
         return this.config.useMockServices;
     }
 

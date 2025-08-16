@@ -1,32 +1,35 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FuseCardModule } from '@fuse/components/card';
 import { FuseAlertModule } from '@fuse/components/alert';
-import { SharedModule } from 'app/shared/shared.module';
-import { LandingHomeComponent } from 'app/modules/landing/home/home.component';
-import { landingHomeRoutes } from 'app/modules/landing/home/home.routing';
+
+import { LandingFoundationComponent } from './foundation.component';
+import { foundationRoutes } from './foundation.routing';
 
 @NgModule({
     declarations: [
-        LandingHomeComponent
+        LandingFoundationComponent
     ],
-    imports     : [
-        RouterModule.forChild(landingHomeRoutes),
+    imports: [
+        CommonModule,
+        RouterModule.forChild(foundationRoutes),
+        FormsModule,
         MatButtonModule,
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
-        MatSelectModule,
+        MatSnackBarModule,
         FuseCardModule,
-        FuseAlertModule,
-        SharedModule
+        FuseAlertModule
     ]
 })
-export class LandingHomeModule
+export class LandingFoundationModule
 {
 }

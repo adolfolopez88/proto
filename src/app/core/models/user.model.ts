@@ -8,6 +8,9 @@ export interface User extends BaseDocument {
     avatar?: string;
     role?: 'admin' | 'user' | 'moderator';
     isActive?: boolean;
+    phone?: string;
+    address?: string ;
+    bio?: string ;
     lastLoginAt?: any;
     preferences?: {
         theme?: string;

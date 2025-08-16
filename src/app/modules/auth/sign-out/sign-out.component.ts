@@ -37,7 +37,15 @@ export class AuthSignOutComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Sign out
-        this._authService.signOut();
+        this._authService.signOut().subscribe({
+            next: () => {
+                console.log('User signed out successfully');
+            },
+            error: (error) => {
+                console.error('Error signing out:', error);
+                // Continue with redirect even if sign out fails
+            }
+        });
 
         // Redirect after the countdown
         timer(1000, 1000)

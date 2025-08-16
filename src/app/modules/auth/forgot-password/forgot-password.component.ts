@@ -89,15 +89,33 @@ export class AuthForgotPasswordComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'success',
-                        message: 'Password reset sent! You\'ll receive an email if you are registered on our system.'
+                        message: 'Password reset email sent! Please check your inbox and follow the instructions.'
                     };
                 },
-                (response) => {
+                (error) => {
 
-                    // Set the alert
+                    // Set the alert based on Firebase error
+                    let errorMessage = 'Password reset failed. Please try again.';
+                    
+                    if (error.code) {
+                        switch (error.code) {
+                            case 'auth/user-not-found':
+                                errorMessage = 'No account found with this email address.';
+                                break;
+                            case 'auth/invalid-email':
+                                errorMessage = 'Invalid email address.';
+                                break;
+                            case 'auth/too-many-requests':
+                                errorMessage = 'Too many requests. Please try again later.';
+                                break;
+                            default:
+                                errorMessage = error.message || 'Password reset failed. Please try again.';
+                        }
+                    }
+
                     this.alert = {
                         type   : 'error',
-                        message: 'Email does not found! Are you sure you are already a member?'
+                        message: errorMessage
                     };
                 }
             );

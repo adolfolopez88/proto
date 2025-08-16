@@ -1,31 +1,276 @@
-<div class="flex flex-col items-center justify-center w-full h-full">
-    <div class="w-full max-w-3xl">
-        <div class="max-w-none mx-auto prose prose-sm">
-            <img
-                class="w-20"
-                src="assets/images/logo/logo.svg"
-                alt="Logo image">
-            <h1>Landing Module</h1>
-            <p>
-                This can be the landing or the welcome page of your application. If you have an SSR (Server Side Rendering) setup, or if you don't need to have Search engine
-                visibility and optimizations, you can even use this page as your primary landing page.
-            </p>
-            <p>
-                This is a separate "module", it has its own directory and routing setup and also it's completely separated from the actual application. This is also a simple example of
-                a multiple applications setup that uses the same codebase. You can have different entry points and essentially have different applications within the same codebase.
-            </p>
+<!-- Hero Section -->
+<div class="flex flex-col w-full min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 lg:px-8">
+        <div class="flex items-center space-x-4">
+            <img class="w-10 h-10" src="assets/images/logo/logo.svg" alt="Logo">
+            <span class="text-xl font-bold text-gray-900 dark:text-white">Fuse Components</span>
         </div>
-        <div>
-            <a
-                class="mt-8"
-                mat-flat-button
-                [color]="'primary'"
-                [routerLink]="'/dashboards/project'">
-                <span>Launch the App</span>
-                <mat-icon
-                    class="ml-2 icon-size-5"
-                    [svgIcon]="'heroicons_solid:arrow-narrow-right'"></mat-icon>
-            </a>
+        <div class="flex items-center space-x-4">
+            <button 
+                mat-button 
+                [routerLink]="'/foundation'">
+                Foundation
+            </button>
+            <button 
+                mat-raised-button 
+                color="primary"
+                [routerLink]="'/firebase-migration'">
+                Launch App
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="flex flex-col items-center justify-center flex-1 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                Component <span class="text-primary">Demo</span> Showcase
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
+                Explore our comprehensive collection of Angular components built with Material Design and TailwindCSS. 
+                Ready to use in your next project.
+            </p>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                <button 
+                    mat-raised-button 
+                    color="primary" 
+                    class="text-lg px-8 py-3"
+                    (click)="scrollToComponents()">
+                    <mat-icon class="mr-2">explore</mat-icon>
+                    Explore Components
+                </button>
+                <button 
+                    mat-stroked-button 
+                    color="primary"
+                    class="text-lg px-8 py-3"
+                    [routerLink]="'/firebase-migration'">
+                    <mat-icon class="mr-2">launch</mat-icon>
+                    View Live Demo
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-3xl font-bold text-primary">50+</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Components</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-primary">10+</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Layouts</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-primary">100%</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Responsive</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-primary">Angular 14</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Latest Version</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Components Showcase -->
+<div #componentsSection class="py-20 px-6 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Featured Components</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300">Discover the power of our component library</p>
+        </div>
+
+        <!-- Component Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Cards Component -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="flex items-center mb-4">
+                    <mat-icon class="text-primary mr-3">credit_card</mat-icon>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Cards</h3>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Versatile card components with multiple layouts and styles</p>
+                <fuse-card class="p-4 mb-4" [flippable]="false">
+                    <div class="text-center">
+                        <mat-icon class="text-primary text-3xl mb-2">star</mat-icon>
+                        <div class="font-medium">Sample Card</div>
+                        <div class="text-sm text-gray-500">Demo content</div>
+                    </div>
+                </fuse-card>
+                <button mat-stroked-button color="primary" class="w-full">View More</button>
+            </div>
+
+            <!-- Navigation Component -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="flex items-center mb-4">
+                    <mat-icon class="text-primary mr-3">menu</mat-icon>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Navigation</h3>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Flexible navigation components with multiple orientations</p>
+                <div class="bg-white dark:bg-gray-700 rounded-lg p-3 mb-4">
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex items-center text-sm">
+                            <mat-icon class="text-xs mr-2">home</mat-icon>
+                            Dashboard
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <mat-icon class="text-xs mr-2">people</mat-icon>
+                            Users
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <mat-icon class="text-xs mr-2">settings</mat-icon>
+                            Settings
+                        </div>
+                    </div>
+                </div>
+                <button mat-stroked-button color="primary" class="w-full">View More</button>
+            </div>
+
+            <!-- Forms Component -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="flex items-center mb-4">
+                    <mat-icon class="text-primary mr-3">edit</mat-icon>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Forms</h3>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Advanced form components with validation and layouts</p>
+                <div class="space-y-3 mb-4">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Sample Input</mat-label>
+                        <input matInput placeholder="Enter text">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Select Option</mat-label>
+                        <mat-select>
+                            <mat-option value="option1">Option 1</mat-option>
+                            <mat-option value="option2">Option 2</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <button mat-stroked-button color="primary" class="w-full">View More</button>
+            </div>
+
+            <!-- Charts Component -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="flex items-center mb-4">
+                    <mat-icon class="text-primary mr-3">bar_chart</mat-icon>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Charts</h3>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Beautiful charts and data visualization components</p>
+                <div class="bg-white dark:bg-gray-700 rounded-lg p-4 mb-4 h-24 flex items-center justify-center">
+                    <div class="flex items-end space-x-1">
+                        <div class="w-4 h-8 bg-primary rounded-sm"></div>
+                        <div class="w-4 h-12 bg-primary/70 rounded-sm"></div>
+                        <div class="w-4 h-6 bg-primary/50 rounded-sm"></div>
+                        <div class="w-4 h-10 bg-primary/80 rounded-sm"></div>
+                    </div>
+                </div>
+                <button mat-stroked-button color="primary" class="w-full">View More</button>
+            </div>
+
+            <!-- Tables Component -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="flex items-center mb-4">
+                    <mat-icon class="text-primary mr-3">table_chart</mat-icon>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tables</h3>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Advanced data tables with sorting and filtering</p>
+                <div class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden mb-4">
+                    <div class="grid grid-cols-3 text-xs">
+                        <div class="p-2 border-b font-medium">Name</div>
+                        <div class="p-2 border-b font-medium">Status</div>
+                        <div class="p-2 border-b font-medium">Date</div>
+                        <div class="p-2">John Doe</div>
+                        <div class="p-2">Active</div>
+                        <div class="p-2">Today</div>
+                    </div>
+                </div>
+                <button mat-stroked-button color="primary" class="w-full">View More</button>
+            </div>
+
+            <!-- Alerts Component -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="flex items-center mb-4">
+                    <mat-icon class="text-primary mr-3">notification_important</mat-icon>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Alerts</h3>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Customizable alert and notification components</p>
+                <div class="space-y-2 mb-4">
+                    <fuse-alert [type]="'success'" [dismissible]="false">
+                        <span fuseAlertTitle>Success!</span>
+                        Operation completed successfully
+                    </fuse-alert>
+                    <fuse-alert [type]="'info'" [dismissible]="false">
+                        <span fuseAlertTitle>Info</span>
+                        Informational message
+                    </fuse-alert>
+                </div>
+                <button mat-stroked-button color="primary" class="w-full">View More</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-20 px-6 bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Our Components?</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300">Built with modern technologies and best practices</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <mat-icon class="text-primary">speed</mat-icon>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">High Performance</h3>
+                <p class="text-gray-600 dark:text-gray-300">Optimized for speed and efficiency</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <mat-icon class="text-primary">devices</mat-icon>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Fully Responsive</h3>
+                <p class="text-gray-600 dark:text-gray-300">Works perfectly on all devices</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <mat-icon class="text-primary">palette</mat-icon>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Customizable</h3>
+                <p class="text-gray-600 dark:text-gray-300">Easy to customize and extend</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="py-20 px-6 bg-primary text-white">
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-4">Ready to Get Started?</h2>
+        <p class="text-xl mb-8 opacity-90">Start building amazing applications with our component library</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+                mat-raised-button 
+                color="accent"
+                class="text-lg px-8 py-3"
+                [routerLink]="'/firebase-migration'">
+                <mat-icon class="mr-2">launch</mat-icon>
+                Launch Demo App
+            </button>
+            <button 
+                mat-stroked-button 
+                class="text-lg px-8 py-3 text-white border-white hover:bg-white hover:text-primary"
+                [routerLink]="'/foundation'">
+                <mat-icon class="mr-2">favorite</mat-icon>
+                View Foundation
+            </button>
         </div>
     </div>
 </div>

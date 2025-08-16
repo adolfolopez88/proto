@@ -61,14 +61,15 @@ export const appRoutes: Route[] = [
         },
         children   : [
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
+            {path: 'foundation', loadChildren: () => import('app/modules/landing/foundation/foundation.module').then(m => m.LandingFoundationModule)},
         ]
     },
     
     // Admin routes
     {
         path       : '',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        canActivate: [],
+        canActivateChild: [],
         component  : LayoutComponent,
         resolve    : {
             initialData: InitialDataResolver,

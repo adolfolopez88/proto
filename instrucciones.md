@@ -115,4 +115,13 @@ Esta será una aplicación que usará la infraestructura de Firebase. Usaremos e
 - **Direcctorio de documentacion**: crea un directorio en la raiz llamado doc
 - **Documenta cada evolutivo**: documentacion adecuada para cada paso
 
-### 14. Remplazar mock por firebase services
+### 14. Formulario de registros de usuarios firebase servicio de Authenticacion
+
+- **componente crud**:  Genera formularios, listas y otros elementos que creen, eliminen y actualizen usuarios con el servicio de authenticacion de firebase. de modo que queden el el registro sel sevicio en la nube
+
+### 15. Auth
+posicionate dentro de la carpeta de `app/modules/auth` dentro de ella encontraras una serie de componentes relacionados a la Authenticacion y registro de usuarios. todas son rutas publicas. tienes que integrar los servicios de firebase en caga uno de estos componentes de modo que se pueda registrar usuarios, loggearse etc. profundiza y detalla mejor esta instruccion.
+
+### 16 sign-up 
+
+posicionate dentro de la carpeta de `app/modules/auth/sign-up` en su interior encontraras un modulo llamado sign-up usando los servicios ya creados para firebase authentication registra un usuario con perfil cliente. habilita el componente y crea los cambios necesarios manteniendo estilos del template

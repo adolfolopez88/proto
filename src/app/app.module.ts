@@ -3,6 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
+
+// Firebase imports for Angular 14 compatibility (AngularFire 7.x)
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { environment } from '../environments/environment';
+
 import { FuseModule } from '@fuse';
 import { FuseConfigModule } from '@fuse/services/config';
 import { FuseMockApiModule } from '@fuse/lib/mock-api';
@@ -26,6 +34,12 @@ const routerConfig: ExtraOptions = {
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, routerConfig),
+
+        // Firebase configuration for Angular 14 (compat API)
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        AngularFireAuthModule,
+        AngularFireStorageModule,
 
         // Fuse, FuseConfig & FuseMockAPI
         FuseModule,

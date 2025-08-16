@@ -7,12 +7,12 @@
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Registro de Cliente</div>
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Already have an account?</div>
+                <div>¿Ya tienes una cuenta?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-in']">Sign in
+                    [routerLink]="['/sign-in']">Iniciar sesión
                 </a>
             </div>
 
@@ -33,36 +33,55 @@
                 [formGroup]="signUpForm"
                 #signUpNgForm="ngForm">
 
-                <!-- Name field -->
+                <!-- First Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Full name</mat-label>
+                    <mat-label>Nombre</mat-label>
                     <input
-                        id="name"
+                        id="firstName"
                         matInput
-                        [formControlName]="'name'">
-                    <mat-error *ngIf="signUpForm.get('name').hasError('required')">
-                        Full name is required
+                        [formControlName]="'firstName'">
+                    <mat-error *ngIf="signUpForm.get('firstName').hasError('required')">
+                        El nombre es requerido
+                    </mat-error>
+                    <mat-error *ngIf="signUpForm.get('firstName').hasError('minlength')">
+                        El nombre debe tener al menos 2 caracteres
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Last Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Apellido</mat-label>
+                    <input
+                        id="lastName"
+                        matInput
+                        [formControlName]="'lastName'">
+                    <mat-error *ngIf="signUpForm.get('lastName').hasError('required')">
+                        El apellido es requerido
+                    </mat-error>
+                    <mat-error *ngIf="signUpForm.get('lastName').hasError('minlength')">
+                        El apellido debe tener al menos 2 caracteres
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Correo electrónico</mat-label>
                     <input
                         id="email"
                         matInput
+                        type="email"
                         [formControlName]="'email'">
                     <mat-error *ngIf="signUpForm.get('email').hasError('required')">
-                        Email address is required
+                        El correo electrónico es requerido
                     </mat-error>
                     <mat-error *ngIf="signUpForm.get('email').hasError('email')">
-                        Please enter a valid email address
+                        Ingrese un correo electrónico válido
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Contraseña</mat-label>
                     <input
                         id="password"
                         matInput
@@ -83,16 +102,33 @@
                             *ngIf="passwordField.type === 'text'"
                             [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                     </button>
-                    <mat-error>
-                        Password is required
+                    <mat-error *ngIf="signUpForm.get('password').hasError('required')">
+                        La contraseña es requerida
+                    </mat-error>
+                    <mat-error *ngIf="signUpForm.get('password').hasError('minlength')">
+                        La contraseña debe tener al menos 6 caracteres
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Phone field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Teléfono (opcional)</mat-label>
+                    <input
+                        id="phone"
+                        matInput
+                        type="tel"
+                        placeholder="+1 (555) 123-4567"
+                        [formControlName]="'phone'">
+                    <mat-error *ngIf="signUpForm.get('phone').hasError('pattern')">
+                        Ingrese un número de teléfono válido
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Company field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Company</mat-label>
+                    <mat-label>Empresa (opcional)</mat-label>
                     <input
-                        id="company-confirm"
+                        id="company"
                         matInput
                         [formControlName]="'company'">
                 </mat-form-field>
@@ -102,15 +138,15 @@
                     <mat-checkbox
                         [color]="'primary'"
                         [formControlName]="'agreements'">
-                        <span>I agree to the</span>
+                        <span>Acepto los</span>
                         <a
                             class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Terms of Service
+                            [routerLink]="['./']">Términos de Servicio
                         </a>
-                        <span>and</span>
+                        <span>y la</span>
                         <a
                             class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Privacy Policy
+                            [routerLink]="['./']">Política de Privacidad
                         </a>
                     </mat-checkbox>
                 </div>
@@ -123,7 +159,7 @@
                     [disabled]="signUpForm.disabled"
                     (click)="signUp()">
                     <span *ngIf="!signUpForm.disabled">
-                        Create your free account
+                        Crear cuenta de cliente
                     </span>
                     <mat-progress-spinner
                         *ngIf="signUpForm.disabled"
@@ -158,12 +194,12 @@
         <!-- Content -->
         <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Welcome to</div>
-                <div>our community</div>
+                <div>Únete a</div>
+                <div>nuestra plataforma</div>
             </div>
             <div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">
-                Fuse helps developers to build organized and well coded dashboards full of beautiful and rich modules.
-                Join us and start building your application today.
+                Accede a servicios exclusivos, gestiona tu perfil y disfruta de una experiencia personalizada.
+                Regístrate como cliente y comienza a disfrutar de todos nuestros beneficios.
             </div>
             <div class="flex items-center mt-8">
                 <div class="flex flex-0 items-center -space-x-1.5">
@@ -180,7 +216,7 @@
                         class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
                         src="assets/images/avatars/male-16.jpg">
                 </div>
-                <div class="ml-4 font-medium tracking-tight text-gray-400">More than 17k people joined us, it's your turn</div>
+                <div class="ml-4 font-medium tracking-tight text-gray-400">Más de 17k clientes confían en nosotros, ¡únete hoy!</div>
             </div>
         </div>
     </div>

@@ -86,7 +86,8 @@ export class AuthUnlockSessionComponent implements OnInit
         // Hide the alert
         this.showAlert = false;
 
-        this._authService.unlockSession({
+        // Use sign in to re-authenticate (unlock session)
+        this._authService.signIn({
             email   : this._email ?? '',
             password: this.unlockSessionForm.get('password').value
         }).subscribe(
@@ -102,7 +103,7 @@ export class AuthUnlockSessionComponent implements OnInit
                 this._router.navigateByUrl(redirectURL);
 
             },
-            (response) => {
+            (error) => {
 
                 // Re-enable the form
                 this.unlockSessionForm.enable();
@@ -115,10 +116,29 @@ export class AuthUnlockSessionComponent implements OnInit
                     }
                 });
 
-                // Set the alert
+                // Set the alert based on Firebase error
+                let errorMessage = 'Session unlock failed. Please try again.';
+                
+                if (error.code) {
+                    switch (error.code) {
+                        case 'auth/wrong-password':
+                        case 'auth/invalid-credential':
+                            errorMessage = 'Invalid password. Please try again.';
+                            break;
+                        case 'auth/user-disabled':
+                            errorMessage = 'This account has been disabled.';
+                            break;
+                        case 'auth/too-many-requests':
+                            errorMessage = 'Too many failed attempts. Please try again later.';
+                            break;
+                        default:
+                            errorMessage = error.message || 'Session unlock failed. Please try again.';
+                    }
+                }
+
                 this.alert = {
                     type   : 'error',
-                    message: 'Invalid password'
+                    message: errorMessage
                 };
 
                 // Show the alert

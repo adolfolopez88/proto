@@ -1,0 +1,54 @@
+<div class="confirm-dialog" [ngClass]="getDialogClass()">
+  <!-- Header -->
+  <div class="dialog-header">
+    <div class="flex items-center">
+      <mat-icon [class]="getIconClass()">{{ data.icon }}</mat-icon>
+      <h2 mat-dialog-title class="dialog-title">{{ data.title }}</h2>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div mat-dialog-content class="dialog-content">
+    <p class="dialog-message">{{ data.message }}</p>
+    
+    <!-- Confirmation Input (if required) -->
+    <div *ngIf="data.requireConfirmation" class="confirmation-section">
+      <div class="confirmation-warning">
+        <mat-icon class="warning-icon">warning</mat-icon>
+        <span>Para confirmar esta acción, escriba <strong>{{ data.confirmationText }}</strong> en el campo inferior:</span>
+      </div>
+      
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Escriba "{{ data.confirmationText }}" para confirmar</mat-label>
+        <input 
+          matInput 
+          [(ngModel)]="confirmationInput"
+          (ngModelChange)="onConfirmTextChange()"
+          class="confirmation-input"
+          autocomplete="off">
+        <mat-hint>Esta acción no se puede deshacer</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-button 
+      (click)="onCancel()"
+      class="cancel-button">
+      <mat-icon>close</mat-icon>
+      {{ data.cancelText }}
+    </button>
+    
+    <button 
+      mat-raised-button 
+      [color]="data.type === 'danger' ? 'warn' : 'primary'"
+      (click)="onConfirm()"
+      [disabled]="data.requireConfirmation && !isConfirmValid"
+      class="confirm-button">
+      <mat-icon>{{ data.type === 'danger' ? 'delete' : 'check' }}</mat-icon>
+      {{ data.confirmText }}
+    </button>
+  </div>
+</div>

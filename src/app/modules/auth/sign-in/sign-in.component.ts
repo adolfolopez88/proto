@@ -45,8 +45,8 @@ export class AuthSignInComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
+            email     : ['', [Validators.required, Validators.email]],
+            password  : ['', Validators.required],
             rememberMe: ['']
         });
     }
@@ -87,7 +87,7 @@ export class AuthSignInComponent implements OnInit
                     this._router.navigateByUrl(redirectURL);
 
                 },
-                (response) => {
+                (error) => {
 
                     // Re-enable the form
                     this.signInForm.enable();
@@ -95,10 +95,37 @@ export class AuthSignInComponent implements OnInit
                     // Reset the form
                     this.signInNgForm.resetForm();
 
-                    // Set the alert
+                    // Set the alert based on Firebase error
+                    let errorMessage = 'Sign in failed. Please try again.';
+                    
+                    if (error.code) {
+                        switch (error.code) {
+                            case 'auth/user-not-found':
+                                errorMessage = 'No account found with this email address.';
+                                break;
+                            case 'auth/wrong-password':
+                                errorMessage = 'Incorrect password.';
+                                break;
+                            case 'auth/invalid-email':
+                                errorMessage = 'Invalid email address.';
+                                break;
+                            case 'auth/user-disabled':
+                                errorMessage = 'This account has been disabled.';
+                                break;
+                            case 'auth/too-many-requests':
+                                errorMessage = 'Too many failed attempts. Please try again later.';
+                                break;
+                            case 'auth/invalid-credential':
+                                errorMessage = 'Invalid email or password.';
+                                break;
+                            default:
+                                errorMessage = error.message || 'Sign in failed. Please try again.';
+                        }
+                    }
+
                     this.alert = {
                         type   : 'error',
-                        message: 'Wrong email or password'
+                        message: errorMessage
                     };
 
                     // Show the alert

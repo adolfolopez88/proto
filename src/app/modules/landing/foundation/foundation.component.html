@@ -1,0 +1,440 @@
+<!-- Hero Section -->
+<div class="flex flex-col w-full min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-900 dark:to-gray-800">
+    
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 md:p-6 lg:px-8 space-y-4 sm:space-y-0">
+        <div class="flex items-center space-x-3">
+            <mat-icon class="w-8 h-8 sm:w-10 sm:h-10 text-green-600">favorite</mat-icon>
+            <span class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Fundación Comunitaria</span>
+        </div>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+            <button 
+                mat-button 
+                class="w-full sm:w-auto"
+                [routerLink]="'/home'">
+                Components Demo
+            </button>
+            <button 
+                mat-raised-button 
+                color="primary"
+                class="w-full sm:w-auto"
+                (click)="scrollToDonate()">
+                Donar Ahora
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="flex flex-col items-center justify-center flex-1 px-4 md:px-6 text-center py-8 md:py-0">
+        <div class="max-w-4xl mx-auto w-full">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 leading-tight">
+                Transformando <span class="text-green-600">Comunidades</span> Juntos
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 md:mb-12 max-w-2xl mx-auto px-4">
+                Una fundación dedicada a crear oportunidades, fomentar la educación y construir un futuro más próspero para nuestra comunidad.
+            </p>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center mb-12 md:mb-16 px-4">
+                <button 
+                    mat-raised-button 
+                    color="primary" 
+                    class="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-2 md:py-3"
+                    (click)="scrollToMission()">
+                    <mat-icon class="mr-2">info</mat-icon>
+                    Nuestra Misión
+                </button>
+                <button 
+                    mat-stroked-button 
+                    color="primary"
+                    class="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-2 md:py-3"
+                    (click)="scrollToProjects()">
+                    <mat-icon class="mr-2">work</mat-icon>
+                    Ver Proyectos
+                </button>
+            </div>
+
+            <!-- Impact Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 text-center px-4">
+                <div class="p-3 md:p-4">
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mb-1">1,200+</div>
+                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Familias Ayudadas</div>
+                </div>
+                <div class="p-3 md:p-4">
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mb-1">45</div>
+                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Proyectos Activos</div>
+                </div>
+                <div class="p-3 md:p-4">
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mb-1">98%</div>
+                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Fondos Directos</div>
+                </div>
+                <div class="p-3 md:p-4">
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mb-1">5 Años</div>
+                    <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">De Impacto</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mission Section -->
+<div #missionSection class="py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12 md:mb-16">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Nuestra Misión</h2>
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">Trabajamos cada día para crear un impacto positivo y duradero</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div class="text-center p-4 md:p-6">
+                <div class="bg-green-100 dark:bg-green-900/30 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                    <mat-icon class="text-green-600 text-xl md:text-2xl">school</mat-icon>
+                </div>
+                <h3 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3 md:mb-4">Educación</h3>
+                <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">Proporcionamos acceso a educación de calidad, becas y programas de desarrollo académico para niños y jóvenes de la comunidad.</p>
+            </div>
+            
+            <div class="text-center p-4 md:p-6">
+                <div class="bg-green-100 dark:bg-green-900/30 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                    <mat-icon class="text-green-600 text-xl md:text-2xl">local_hospital</mat-icon>
+                </div>
+                <h3 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3 md:mb-4">Salud</h3>
+                <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">Ofrecemos servicios de salud preventiva, campañas de vacunación y programas de nutrición para familias vulnerables.</p>
+            </div>
+            
+            <div class="text-center p-4 md:p-6">
+                <div class="bg-green-100 dark:bg-green-900/30 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                    <mat-icon class="text-green-600 text-xl md:text-2xl">business</mat-icon>
+                </div>
+                <h3 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3 md:mb-4">Desarrollo</h3>
+                <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">Impulsamos proyectos de desarrollo económico, microcréditos y capacitación laboral para crear oportunidades sostenibles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Projects Section -->
+<div #projectsSection class="py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12 md:mb-16">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Proyectos Activos</h2>
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">Conoce nuestros programas que están transformando vidas</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
+            
+            <!-- Project 1 -->
+            <fuse-card class="hover:shadow-lg transition-shadow h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-3 md:mb-4">
+                        <mat-icon class="text-green-600 mr-3 text-xl md:text-2xl flex-shrink-0">menu_book</mat-icon>
+                        <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-tight">Biblioteca Móvil</h3>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 flex-grow leading-relaxed">Llevamos libros y programas de lectura a comunidades rurales sin acceso a bibliotecas.</p>
+                    <div class="mb-4 md:mb-6">
+                        <div class="flex justify-between text-xs md:text-sm mb-2">
+                            <span class="text-gray-600 dark:text-gray-400">Progreso</span>
+                            <span class="text-green-600 font-medium">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 md:h-3">
+                            <div class="bg-green-600 h-2 md:h-3 rounded-full transition-all duration-300" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm text-gray-500 dark:text-gray-400 space-y-1 sm:space-y-0">
+                        <span>Meta: $15,000</span>
+                        <span class="font-medium">Recaudado: $11,250</span>
+                    </div>
+                </div>
+            </fuse-card>
+
+            <!-- Project 2 -->
+            <fuse-card class="hover:shadow-lg transition-shadow h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-3 md:mb-4">
+                        <mat-icon class="text-green-600 mr-3 text-xl md:text-2xl flex-shrink-0">agriculture</mat-icon>
+                        <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-tight">Huertos Comunitarios</h3>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 flex-grow leading-relaxed">Creamos espacios para el cultivo de alimentos orgánicos y programas de seguridad alimentaria.</p>
+                    <div class="mb-4 md:mb-6">
+                        <div class="flex justify-between text-xs md:text-sm mb-2">
+                            <span class="text-gray-600 dark:text-gray-400">Progreso</span>
+                            <span class="text-green-600 font-medium">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 md:h-3">
+                            <div class="bg-green-600 h-2 md:h-3 rounded-full transition-all duration-300" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm text-gray-500 dark:text-gray-400 space-y-1 sm:space-y-0">
+                        <span>Meta: $8,500</span>
+                        <span class="font-medium">Recaudado: $7,650</span>
+                    </div>
+                </div>
+            </fuse-card>
+
+            <!-- Project 3 -->
+            <fuse-card class="hover:shadow-lg transition-shadow h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-3 md:mb-4">
+                        <mat-icon class="text-green-600 mr-3 text-xl md:text-2xl flex-shrink-0">computer</mat-icon>
+                        <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-tight">Tecnología Educativa</h3>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 flex-grow leading-relaxed">Equipamos escuelas con computadoras y ofrecemos capacitación en tecnología digital.</p>
+                    <div class="mb-4 md:mb-6">
+                        <div class="flex justify-between text-xs md:text-sm mb-2">
+                            <span class="text-gray-600 dark:text-gray-400">Progreso</span>
+                            <span class="text-green-600 font-medium">45%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 md:h-3">
+                            <div class="bg-green-600 h-2 md:h-3 rounded-full transition-all duration-300" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm text-gray-500 dark:text-gray-400 space-y-1 sm:space-y-0">
+                        <span>Meta: $25,000</span>
+                        <span class="font-medium">Recaudado: $11,250</span>
+                    </div>
+                </div>
+            </fuse-card>
+
+            <!-- Project 4 -->
+            <fuse-card class="hover:shadow-lg transition-shadow h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-3 md:mb-4">
+                        <mat-icon class="text-green-600 mr-3 text-xl md:text-2xl flex-shrink-0">water_drop</mat-icon>
+                        <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-tight">Agua Limpia</h3>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 flex-grow leading-relaxed">Instalamos sistemas de purificación de agua en comunidades sin acceso a agua potable.</p>
+                    <div class="mb-4 md:mb-6">
+                        <div class="flex justify-between text-xs md:text-sm mb-2">
+                            <span class="text-gray-600 dark:text-gray-400">Progreso</span>
+                            <span class="text-green-600 font-medium">60%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 md:h-3">
+                            <div class="bg-green-600 h-2 md:h-3 rounded-full transition-all duration-300" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm text-gray-500 dark:text-gray-400 space-y-1 sm:space-y-0">
+                        <span>Meta: $30,000</span>
+                        <span class="font-medium">Recaudado: $18,000</span>
+                    </div>
+                </div>
+            </fuse-card>
+
+            <!-- Project 5 -->
+            <fuse-card class="hover:shadow-lg transition-shadow h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-3 md:mb-4">
+                        <mat-icon class="text-green-600 mr-3 text-xl md:text-2xl flex-shrink-0">elderly</mat-icon>
+                        <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-tight">Cuidado de Adultos Mayores</h3>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 flex-grow leading-relaxed">Programas de atención médica y acompañamiento para adultos mayores en situación vulnerable.</p>
+                    <div class="mb-4 md:mb-6">
+                        <div class="flex justify-between text-xs md:text-sm mb-2">
+                            <span class="text-gray-600 dark:text-gray-400">Progreso</span>
+                            <span class="text-green-600 font-medium">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 md:h-3">
+                            <div class="bg-green-600 h-2 md:h-3 rounded-full transition-all duration-300" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm text-gray-500 dark:text-gray-400 space-y-1 sm:space-y-0">
+                        <span>Meta: $12,000</span>
+                        <span class="font-medium">Recaudado: $10,200</span>
+                    </div>
+                </div>
+            </fuse-card>
+
+            <!-- Project 6 -->
+            <fuse-card class="hover:shadow-lg transition-shadow h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-3 md:mb-4">
+                        <mat-icon class="text-green-600 mr-3 text-xl md:text-2xl flex-shrink-0">groups</mat-icon>
+                        <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-tight">Emprendimiento Femenino</h3>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 flex-grow leading-relaxed">Capacitación y microcréditos para mujeres emprendedoras de la comunidad.</p>
+                    <div class="mb-4 md:mb-6">
+                        <div class="flex justify-between text-xs md:text-sm mb-2">
+                            <span class="text-gray-600 dark:text-gray-400">Progreso</span>
+                            <span class="text-green-600 font-medium">70%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 md:h-3">
+                            <div class="bg-green-600 h-2 md:h-3 rounded-full transition-all duration-300" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm text-gray-500 dark:text-gray-400 space-y-1 sm:space-y-0">
+                        <span>Meta: $18,000</span>
+                        <span class="font-medium">Recaudado: $12,600</span>
+                    </div>
+                </div>
+            </fuse-card>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12 md:mb-16">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Historias de Impacto</h2>
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">Conoce cómo estamos transformando vidas</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <fuse-card class="h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-4 md:mb-6">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                            <mat-icon class="text-green-600 text-lg md:text-xl">person</mat-icon>
+                        </div>
+                        <div>
+                            <h4 class="text-sm md:text-base font-semibold text-gray-900 dark:text-white">María González</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Beneficiaria - Huertos Comunitarios</p>
+                        </div>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 italic flex-grow leading-relaxed">"Gracias al programa de huertos comunitarios, ahora puedo alimentar mejor a mi familia y generar ingresos vendiendo nuestros productos orgánicos."</p>
+                </div>
+            </fuse-card>
+
+            <fuse-card class="h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-4 md:mb-6">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                            <mat-icon class="text-green-600 text-lg md:text-xl">person</mat-icon>
+                        </div>
+                        <div>
+                            <h4 class="text-sm md:text-base font-semibold text-gray-900 dark:text-white">Carlos Méndez</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Estudiante - Tecnología Educativa</p>
+                        </div>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 italic flex-grow leading-relaxed">"El acceso a las computadoras y la capacitación me han abierto nuevas oportunidades. Ahora estudio programación y sueño con crear mi propia empresa de tecnología."</p>
+                </div>
+            </fuse-card>
+
+            <fuse-card class="h-full">
+                <div class="p-4 md:p-6 flex flex-col h-full">
+                    <div class="flex items-center mb-4 md:mb-6">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                            <mat-icon class="text-green-600 text-lg md:text-xl">person</mat-icon>
+                        </div>
+                        <div>
+                            <h4 class="text-sm md:text-base font-semibold text-gray-900 dark:text-white">Ana Rodríguez</h4>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Emprendedora - Microcréditos</p>
+                        </div>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 italic flex-grow leading-relaxed">"Con el microcrédito pude iniciar mi negocio de repostería. Ahora empleo a tres mujeres más de mi comunidad y hemos mejorado nuestra calidad de vida."</p>
+                </div>
+            </fuse-card>
+        </div>
+    </div>
+</div>
+
+<!-- Donation Section -->
+<div #donateSection class="py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-green-600 text-white">
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4">Tu Ayuda Hace la Diferencia</h2>
+        <p class="text-base sm:text-lg md:text-xl mb-8 md:mb-12 opacity-90 max-w-3xl mx-auto px-4">Cada donación, sin importar el monto, contribuye a crear un impacto positivo en nuestra comunidad</p>
+        
+        <!-- Donation Options -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-12">
+            <button 
+                mat-raised-button 
+                class="bg-white text-green-600 hover:bg-gray-100 font-semibold py-3 md:py-4 text-sm md:text-base" 
+                (click)="donate(25)">
+                $25
+            </button>
+            <button 
+                mat-raised-button 
+                class="bg-white text-green-600 hover:bg-gray-100 font-semibold py-3 md:py-4 text-sm md:text-base" 
+                (click)="donate(50)">
+                $50
+            </button>
+            <button 
+                mat-raised-button 
+                class="bg-white text-green-600 hover:bg-gray-100 font-semibold py-3 md:py-4 text-sm md:text-base" 
+                (click)="donate(100)">
+                $100
+            </button>
+            <button 
+                mat-raised-button 
+                class="bg-white text-green-600 hover:bg-gray-100 font-semibold py-3 md:py-4 text-sm md:text-base" 
+                (click)="openCustomDonation()">
+                Otro
+            </button>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-12 md:mb-16 px-4">
+            <button 
+                mat-raised-button 
+                color="accent"
+                class="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-2 md:py-3"
+                (click)="openCustomDonation()">
+                <mat-icon class="mr-2">volunteer_activism</mat-icon>
+                Donar Ahora
+            </button>
+            <button 
+                mat-stroked-button 
+                class="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-2 md:py-3 text-white border-white hover:bg-white hover:text-green-600"
+                (click)="becomeVolunteer()">
+                <mat-icon class="mr-2">people</mat-icon>
+                Ser Voluntario
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center px-4">
+            <div class="p-4">
+                <mat-icon class="text-3xl md:text-4xl mb-2 md:mb-3">attach_money</mat-icon>
+                <h4 class="text-sm md:text-base font-semibold mb-1 md:mb-2">Transparencia Total</h4>
+                <p class="text-xs md:text-sm opacity-80 leading-relaxed">98% de las donaciones van directamente a los programas</p>
+            </div>
+            <div class="p-4">
+                <mat-icon class="text-3xl md:text-4xl mb-2 md:mb-3">security</mat-icon>
+                <h4 class="text-sm md:text-base font-semibold mb-1 md:mb-2">Donaciones Seguras</h4>
+                <p class="text-xs md:text-sm opacity-80 leading-relaxed">Procesamiento seguro y encriptado de pagos</p>
+            </div>
+            <div class="p-4">
+                <mat-icon class="text-3xl md:text-4xl mb-2 md:mb-3">receipt</mat-icon>
+                <h4 class="text-sm md:text-base font-semibold mb-1 md:mb-2">Deducible de Impuestos</h4>
+                <p class="text-xs md:text-sm opacity-80 leading-relaxed">Todas las donaciones son deducibles fiscalmente</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Mantente Conectado</h2>
+        <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 md:mb-12 max-w-3xl mx-auto px-4">Síguenos para conocer las últimas noticias y actualizaciones de nuestros proyectos</p>
+        
+        <div class="flex justify-center space-x-4 md:space-x-6 mb-8 md:mb-12">
+            <button mat-icon-button class="text-blue-600 w-12 h-12 md:w-14 md:h-14">
+                <mat-icon class="text-xl md:text-2xl">facebook</mat-icon>
+            </button>
+            <button mat-icon-button class="text-blue-400 w-12 h-12 md:w-14 md:h-14">
+                <mat-icon class="text-xl md:text-2xl">alternate_email</mat-icon>
+            </button>
+            <button mat-icon-button class="text-pink-600 w-12 h-12 md:w-14 md:h-14">
+                <mat-icon class="text-xl md:text-2xl">camera_alt</mat-icon>
+            </button>
+            <button mat-icon-button class="text-red-600 w-12 h-12 md:w-14 md:h-14">
+                <mat-icon class="text-xl md:text-2xl">play_circle_filled</mat-icon>
+            </button>
+        </div>
+
+        <div class="bg-white dark:bg-gray-700 rounded-lg p-4 md:p-6 lg:p-8 max-w-md mx-auto">
+            <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white mb-4 md:mb-6">Suscríbete a nuestro boletín</h3>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Tu email</mat-label>
+                    <input matInput type="email" [(ngModel)]="emailSubscription">
+                </mat-form-field>
+                <button 
+                    mat-raised-button 
+                    color="primary" 
+                    class="w-full sm:w-auto px-4 md:px-6"
+                    (click)="subscribe()">
+                    Suscribir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

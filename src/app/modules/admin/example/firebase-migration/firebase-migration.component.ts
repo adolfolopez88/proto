@@ -7,7 +7,7 @@ import { UserFirebaseService } from 'app/core/services/firebase/user-firebase.se
 
 @Component({
     selector: 'app-firebase-migration',
-    template: `hola`
+    templateUrl: './firebase-migration.compoment.html'
 })
 export class FirebaseMigrationComponent implements OnInit, OnDestroy {
     isUsingMock = true;
@@ -22,7 +22,6 @@ export class FirebaseMigrationComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-          console.log("sssssss");
         this.refreshServices();
     }
 
@@ -89,12 +88,15 @@ export class FirebaseMigrationComponent implements OnInit, OnDestroy {
         const authService = this.firebaseFactory.getAuthService();
         
         const registerData = {
-            email: 'test@example.com',
+            email: 'adolfolopez88@gmail.com',
             password: 'password123',
             confirmPassword: 'password123',
-            firstName: 'Test',
-            lastName: 'User',
-            displayName: 'Test User'
+            firstName: 'Adolfo',
+            lastName: 'Lopez',
+            displayName: 'adolfolopez88',
+            phone: '933761400',
+            address: 'Angel Guarello 2943',
+            bio: "NO APLICA"
         };
 
         authService.signUp(registerData)
