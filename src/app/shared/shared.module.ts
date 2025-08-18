@@ -50,6 +50,7 @@ import { GenericTableComponent } from './components/generic-table/generic-table.
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { GenericCardComponent } from './components/generic-card/generic-card.component';
 
 const MATERIAL_MODULES = [
     MatAutocompleteModule,
@@ -100,7 +101,8 @@ const CUSTOM_COMPONENTS = [
     GenericTableComponent,
     GenericFormComponent,
     DynamicFormComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    GenericCardComponent
 ];
 
 @NgModule({

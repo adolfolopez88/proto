@@ -1,0 +1,152 @@
+<!-- Products Gallery Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Products Gallery
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300">
+            Explore our collection of premium tech products and gadgets
+        </p>
+    </div>
+    
+    <!-- View Toggle -->
+    <div class="flex items-center space-x-2 mt-4 sm:mt-0">
+        <mat-button-toggle-group [value]="viewMode" (change)="onViewModeChange($event)">
+            <mat-button-toggle value="grid">
+                <mat-icon>grid_view</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="list">
+                <mat-icon>view_list</mat-icon>
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+</div>
+
+<!-- Filters and Search -->
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+    <div class="flex flex-col lg:flex-row gap-4">
+        <!-- Search -->
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Search products</mat-label>
+            <input 
+                matInput 
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchChange()"
+                placeholder="Search by name, brand, or category">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        
+        <!-- Category Filter -->
+        <mat-form-field appearance="outline" class="w-full lg:w-48">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onFilterChange()">
+                <mat-option *ngFor="let category of categories" [value]="category">
+                    {{ category }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <!-- Price Range -->
+        <div class="flex items-center space-x-4 w-full lg:w-64">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Price:</span>
+            <mat-slider 
+                class="flex-1"
+                [min]="0" 
+                [max]="5000" 
+                [step]="100"
+                [(ngModel)]="priceRange"
+                (input)="onPriceRangeChange($event)">
+                <input matSliderThumb [(ngModel)]="priceRange">
+            </mat-slider>
+            <span class="text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                ${{ priceRange }}
+            </span>
+        </div>
+        
+        <!-- Sort -->
+        <mat-form-field appearance="outline" class="w-full lg:w-48">
+            <mat-label>Sort by</mat-label>
+            <mat-select [(ngModel)]="sortBy" (selectionChange)="onSortChange()">
+                <mat-option value="name">Name</mat-option>
+                <mat-option value="price">Price</mat-option>
+                <mat-option value="rating">Rating</mat-option>
+                <mat-option value="date">Date</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+<!-- Results Info -->
+<div class="flex items-center justify-between mb-6">
+    <p class="text-sm text-gray-600 dark:text-gray-400">
+        Showing {{ filteredProducts.length }} of {{ totalProducts }} products
+    </p>
+    <button 
+        mat-button 
+        color="primary"
+        (click)="resetFilters()"
+        *ngIf="hasActiveFilters()">
+        <mat-icon class="mr-2">clear</mat-icon>
+        Clear Filters
+    </button>
+</div>
+
+<!-- Products Grid/List -->
+<div 
+    class="grid gap-6"
+    [ngClass]="{
+        'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4': viewMode === 'grid',
+        'grid-cols-1': viewMode === 'list'
+    }">
+    
+    <app-generic-card
+        *ngFor="let product of filteredProducts; trackBy: trackByProduct"
+        [data]="product"
+        [variant]="viewMode === 'list' ? 'minimal' : 'default'"
+        [showActionButton]="true"
+        [actionIcon]="getFavoriteIcon(product)"
+        [actionLabel]="getFavoriteLabel(product)"
+        [actionColor]="isFavorite(product) ? 'warn' : 'primary'"
+        [showFooterActions]="true"
+        [footerActions]="getProductActions(product)"
+        (cardClick)="onProductClick(product)"
+        (actionClick)="onFavoriteToggle(product)"
+        (footerActionClick)="onProductAction($event)">
+    </app-generic-card>
+</div>
+
+<!-- Empty State -->
+<div 
+    class="text-center py-16"
+    *ngIf="filteredProducts.length === 0">
+    <mat-icon class="text-6xl text-gray-400 mb-4">inventory_2</mat-icon>
+    <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        No products found
+    </h3>
+    <p class="text-gray-500 dark:text-gray-400 mb-6">
+        Try adjusting your search or filters to find what you're looking for.
+    </p>
+    <button 
+        mat-raised-button 
+        color="primary"
+        (click)="resetFilters()">
+        Reset Filters
+    </button>
+</div>
+
+<!-- Loading State -->
+<div 
+    class="flex justify-center py-16"
+    *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<!-- Floating Action Button -->
+<button 
+    mat-fab
+    color="primary"
+    class="fixed bottom-6 right-6 z-50"
+    (click)="onAddProduct()"
+    matTooltip="Add new product">
+    <mat-icon>add</mat-icon>
+</button>

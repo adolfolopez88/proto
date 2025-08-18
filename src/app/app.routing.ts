@@ -79,6 +79,11 @@ export const appRoutes: Route[] = [
             {path: 'firebase-example', loadChildren: () => import('app/modules/admin/example/firebase-example/firebase-example.module').then(m => m.FirebaseExampleModule)},
             {path: 'firebase-migration', loadChildren: () => import('app/modules/admin/example/firebase-migration/firebase-migration.module').then(m => m.FirebaseMigrationModule)},
             {path: 'user-management', loadChildren: () => import('app/modules/admin/user-management/user-management.module').then(m => m.UserManagementModule)},
+            
+            // Card Examples
+            {path: 'cards/products', loadChildren: () => import('app/modules/admin/cards/products/products.module').then(m => m.ProductsModule)},
+            {path: 'cards/postcards', loadChildren: () => import('app/modules/admin/cards/postcards/postcards.module').then(m => m.PostcardsModule)},
+            {path: 'cards/characters', loadChildren: () => import('app/modules/admin/cards/characters/characters.module').then(m => m.CharactersModule)},
         ]
     },
 

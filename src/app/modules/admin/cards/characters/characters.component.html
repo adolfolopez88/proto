@@ -1,0 +1,110 @@
+<!-- Characters Gallery Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Characters Universe
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300">
+            Meet legendary characters from movies, books, and games
+        </p>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+    <div class="flex flex-col lg:flex-row gap-4">
+        <!-- Search -->
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Search characters</mat-label>
+            <input 
+                matInput 
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchChange()"
+                placeholder="Search by name, universe, or abilities">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        
+        <!-- Universe Filter -->
+        <mat-form-field appearance="outline" class="w-full lg:w-48">
+            <mat-label>Universe</mat-label>
+            <mat-select [(ngModel)]="selectedUniverse" (selectionChange)="onFilterChange()">
+                <mat-option *ngFor="let universe of universes" [value]="universe">
+                    {{ universe }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <!-- Alignment Filter -->
+        <mat-form-field appearance="outline" class="w-full lg:w-48">
+            <mat-label>Alignment</mat-label>
+            <mat-select [(ngModel)]="selectedAlignment" (selectionChange)="onFilterChange()">
+                <mat-option value="">All</mat-option>
+                <mat-option value="Good">Good</mat-option>
+                <mat-option value="Neutral">Neutral</mat-option>
+                <mat-option value="Evil">Evil</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <!-- Sort -->
+        <mat-form-field appearance="outline" class="w-full lg:w-48">
+            <mat-label>Sort by</mat-label>
+            <mat-select [(ngModel)]="sortBy" (selectionChange)="onSortChange()">
+                <mat-option value="name">Name</mat-option>
+                <mat-option value="universe">Universe</mat-option>
+                <mat-option value="rating">Rating</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+<!-- Results Info -->
+<div class="flex items-center justify-between mb-6">
+    <p class="text-sm text-gray-600 dark:text-gray-400">
+        Showing {{ filteredCharacters.length }} of {{ totalCharacters }} characters
+    </p>
+    <button 
+        mat-button 
+        color="primary"
+        (click)="resetFilters()"
+        *ngIf="hasActiveFilters()">
+        <mat-icon class="mr-2">clear</mat-icon>
+        Clear Filters
+    </button>
+</div>
+
+<!-- Characters Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <app-generic-card
+        *ngFor="let character of filteredCharacters; trackBy: trackByCharacter"
+        [data]="character"
+        [variant]="'featured'"
+        [showActionButton]="true"
+        [actionIcon]="getFavoriteIcon(character)"
+        [actionLabel]="getFavoriteLabel(character)"
+        [actionColor]="isFavorite(character) ? 'warn' : 'primary'"
+        [showFooterActions]="true"
+        [footerActions]="getCharacterActions(character)"
+        (cardClick)="onCharacterClick(character)"
+        (actionClick)="onFavoriteToggle(character)"
+        (footerActionClick)="onCharacterAction($event)">
+    </app-generic-card>
+</div>
+
+<!-- Empty State -->
+<div 
+    class="text-center py-16"
+    *ngIf="filteredCharacters.length === 0">
+    <mat-icon class="text-6xl text-gray-400 mb-4">people</mat-icon>
+    <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        No characters found
+    </h3>
+    <p class="text-gray-500 dark:text-gray-400 mb-6">
+        Try adjusting your search or filters to find characters.
+    </p>
+    <button 
+        mat-raised-button 
+        color="primary"
+        (click)="resetFilters()">
+        Reset Filters
+    </button>
+</div>

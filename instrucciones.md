@@ -125,3 +125,8 @@ posicionate dentro de la carpeta de `app/modules/auth` dentro de ella encontrara
 ### 16 sign-up 
 
 posicionate dentro de la carpeta de `app/modules/auth/sign-up` en su interior encontraras un modulo llamado sign-up usando los servicios ya creados para firebase authentication registra un usuario con perfil cliente. habilita el componente y crea los cambios necesarios manteniendo estilos del template
+
+### 17 Nuevos componentes
+
+-**Tarjetas** crea elementos genericos de tipo card para representar diferentes listas unas como productos, postales, personajes.
+-**Genera listas Mock y ejemplos** crea rutas para acceder al diferentes ejemplos de cada una de las listas agregandolas al menu del layout principal

@@ -1,0 +1,99 @@
+<!-- Postcards Gallery Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Postcards Collection
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300">
+            Explore beautiful destinations from around the world
+        </p>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+    <div class="flex flex-col lg:flex-row gap-4">
+        <!-- Search -->
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Search postcards</mat-label>
+            <input 
+                matInput 
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchChange()"
+                placeholder="Search by location, photographer, or tags">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        
+        <!-- Category Filter -->
+        <mat-form-field appearance="outline" class="w-full lg:w-48">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onFilterChange()">
+                <mat-option *ngFor="let category of categories" [value]="category">
+                    {{ category }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <!-- Sort -->
+        <mat-form-field appearance="outline" class="w-full lg:w-48">
+            <mat-label>Sort by</mat-label>
+            <mat-select [(ngModel)]="sortBy" (selectionChange)="onSortChange()">
+                <mat-option value="title">Title</mat-option>
+                <mat-option value="location">Location</mat-option>
+                <mat-option value="rating">Rating</mat-option>
+                <mat-option value="date">Date</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+<!-- Results Info -->
+<div class="flex items-center justify-between mb-6">
+    <p class="text-sm text-gray-600 dark:text-gray-400">
+        Showing {{ filteredPostcards.length }} of {{ totalPostcards }} postcards
+    </p>
+    <button 
+        mat-button 
+        color="primary"
+        (click)="resetFilters()"
+        *ngIf="hasActiveFilters()">
+        <mat-icon class="mr-2">clear</mat-icon>
+        Clear Filters
+    </button>
+</div>
+
+<!-- Postcards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <app-generic-card
+        *ngFor="let postcard of filteredPostcards; trackBy: trackByPostcard"
+        [data]="postcard"
+        [showActionButton]="true"
+        [actionIcon]="getFavoriteIcon(postcard)"
+        [actionLabel]="getFavoriteLabel(postcard)"
+        [actionColor]="isFavorite(postcard) ? 'warn' : 'primary'"
+        [showFooterActions]="true"
+        [footerActions]="getPostcardActions()"
+        (cardClick)="onPostcardClick(postcard)"
+        (actionClick)="onFavoriteToggle(postcard)"
+        (footerActionClick)="onPostcardAction($event)">
+    </app-generic-card>
+</div>
+
+<!-- Empty State -->
+<div 
+    class="text-center py-16"
+    *ngIf="filteredPostcards.length === 0">
+    <mat-icon class="text-6xl text-gray-400 mb-4">photo_library</mat-icon>
+    <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        No postcards found
+    </h3>
+    <p class="text-gray-500 dark:text-gray-400 mb-6">
+        Try adjusting your search or filters to find postcards.
+    </p>
+    <button 
+        mat-raised-button 
+        color="primary"
+        (click)="resetFilters()">
+        Reset Filters
+    </button>
+</div>

@@ -1,0 +1,100 @@
+<div 
+    class="generic-card group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+    [ngClass]="getCardClasses()"
+    (click)="onCardClick()">
+    
+    <!-- Image Section -->
+    <div class="relative overflow-hidden" *ngIf="data.image">
+        <img 
+            [src]="data.image" 
+            [alt]="data.title"
+            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy">
+        
+        <!-- Badge/Status Overlay -->
+        <div class="absolute top-3 left-3" *ngIf="data.badge">
+            <span 
+                class="px-3 py-1 text-xs font-semibold rounded-full text-white"
+                [ngClass]="getBadgeClasses(data.badge.type)">
+                {{ data.badge.text }}
+            </span>
+        </div>
+        
+        <!-- Price/Value Overlay -->
+        <div class="absolute top-3 right-3" *ngIf="data.price">
+            <span class="px-3 py-1 text-sm font-bold bg-white/90 backdrop-blur-sm rounded-full text-gray-900">
+                {{ data.price | currency }}
+            </span>
+        </div>
+        
+        <!-- Favorite/Action Button -->
+        <div class="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" *ngIf="showActionButton">
+            <button 
+                mat-icon-button 
+                class="bg-white/90 backdrop-blur-sm hover:bg-white"
+                (click)="onActionClick($event)"
+                [attr.aria-label]="actionLabel">
+                <mat-icon [color]="actionColor">{{ actionIcon }}</mat-icon>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Content Section -->
+    <div class="p-6">
+        <!-- Title -->
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+            {{ data.title }}
+        </h3>
+        
+        <!-- Subtitle/Category -->
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3" *ngIf="data.subtitle">
+            {{ data.subtitle }}
+        </p>
+        
+        <!-- Description -->
+        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3" *ngIf="data.description">
+            {{ data.description }}
+        </p>
+        
+        <!-- Meta Information -->
+        <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-4" *ngIf="data.meta">
+            <span *ngIf="data.meta.author">{{ data.meta.author }}</span>
+            <span *ngIf="data.meta.date">{{ data.meta.date | date:'shortDate' }}</span>
+            <span *ngIf="data.meta.rating" class="flex items-center">
+                <mat-icon class="text-yellow-500 mr-1" style="font-size: 16px;">star</mat-icon>
+                {{ data.meta.rating }}
+            </span>
+        </div>
+        
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mb-4" *ngIf="data.tags && data.tags.length > 0">
+            <span 
+                *ngFor="let tag of data.tags; trackBy: trackByTag"
+                class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full">
+                {{ tag }}
+            </span>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex gap-2" *ngIf="showFooterActions">
+            <button 
+                *ngFor="let action of footerActions; trackBy: trackByAction"
+                [mat-raised-button]="action.primary"
+                [mat-button]="!action.primary"
+                [color]="action.color || 'primary'"
+                [disabled]="action.disabled"
+                class="flex-1"
+                (click)="onFooterActionClick($event, action)">
+                <mat-icon *ngIf="action.icon" class="mr-2">{{ action.icon }}</mat-icon>
+                {{ action.label }}
+            </button>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div 
+        class="absolute inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center"
+        *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+</div>
