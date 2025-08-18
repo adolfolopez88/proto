@@ -130,3 +130,11 @@ posicionate dentro de la carpeta de `app/modules/auth/sign-up` en su interior en
 
 -**Tarjetas** crea elementos genericos de tipo card para representar diferentes listas unas como productos, postales, personajes.
 -**Genera listas Mock y ejemplos** crea rutas para acceder al diferentes ejemplos de cada una de las listas agregandolas al menu del layout principal
+
+
+### 18 Firebase Menssaging
+
+-**Servicio Menssaging** crea un componente capaz de usar Firebase Menssaging que envie un mensaje de los posibles tipos que consideres para una version inicial.  los mensajes deben ser dirigidos a los usuarios que tengamos registrados. seran enviados a traves de un boton ubicado en una lista usuarios.
+-**Crear Lista** crear un componente de lista con el cual sea posible la interaccion
+-**Boton Mensaje** desplegara un formulario con el que se podra escribie el mensaje enviado
+-**Rutas al nuevo componente** crear las rutas para acceder al componente

@@ -84,6 +84,9 @@ export const appRoutes: Route[] = [
             {path: 'cards/products', loadChildren: () => import('app/modules/admin/cards/products/products.module').then(m => m.ProductsModule)},
             {path: 'cards/postcards', loadChildren: () => import('app/modules/admin/cards/postcards/postcards.module').then(m => m.PostcardsModule)},
             {path: 'cards/characters', loadChildren: () => import('app/modules/admin/cards/characters/characters.module').then(m => m.CharactersModule)},
+            
+            // Messaging
+            {path: 'messaging', loadChildren: () => import('app/modules/admin/messaging/messaging.module').then(m => m.MessagingModule)},
         ]
     },
 

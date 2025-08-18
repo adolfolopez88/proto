@@ -17,6 +17,7 @@ export interface User extends BaseDocument {
         language?: string;
         notifications?: boolean;
     };
+    status?: string;
 }
 
 export interface CreateUserRequest extends Omit<User, 'id' | 'createdAt' | 'updatedAt'> {

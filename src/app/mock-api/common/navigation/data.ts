@@ -52,6 +52,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:users',
         link : '/user-management'
+    },
+    {
+        id   : 'messaging',
+        title: 'Firebase Messaging',
+        type : 'basic',
+        icon : 'heroicons_outline:chat-bubble-left-right',
+        link : '/messaging'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -105,6 +112,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:users',
         link : '/user-management'
+    },
+    {
+        id   : 'messaging',
+        title: 'Firebase Messaging',
+        type : 'basic',
+        icon : 'heroicons_outline:chat-bubble-left-right',
+        link : '/messaging'
     }
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -158,6 +172,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:users',
         link : '/user-management'
+    },
+    {
+        id   : 'messaging',
+        title: 'Firebase Messaging',
+        type : 'basic',
+        icon : 'heroicons_outline:chat-bubble-left-right',
+        link : '/messaging'
     }
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
@@ -211,5 +232,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:users',
         link : '/user-management'
+    },
+    {
+        id   : 'messaging',
+        title: 'Firebase Messaging',
+        type : 'basic',
+        icon : 'heroicons_outline:chat-bubble-left-right',
+        link : '/messaging'
     }
 ];
