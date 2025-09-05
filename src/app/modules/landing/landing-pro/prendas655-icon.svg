@@ -1,0 +1,96 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="serpentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC143C;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B0000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="triangleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#2C2C2C;stop-opacity:0.7" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="1" dy="1" stdDeviation="0.5" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Base Triangle -->
+  <path d="M 16 2 L 29 28 L 3 28 Z" 
+        fill="url(#triangleGradient)" 
+        stroke="#DC143C" 
+        stroke-width="0.5"
+        filter="url(#shadow)"/>
+  
+  <!-- Gothic Border Pattern -->
+  <path d="M 16 4 L 27 26 L 5 26 Z" 
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="0.3" 
+        opacity="0.6"/>
+  
+  <!-- Serpent Body - Main Curve -->
+  <path d="M 8 22 Q 12 18 16 16 Q 20 14 24 12 Q 22 16 18 18 Q 14 20 10 24" 
+        fill="none" 
+        stroke="url(#serpentGradient)" 
+        stroke-width="2" 
+        stroke-linecap="round"/>
+  
+  <!-- Serpent Head -->
+  <ellipse cx="24" cy="12" rx="2" ry="1.5" 
+           fill="url(#serpentGradient)" 
+           transform="rotate(45 24 12)"/>
+  
+  <!-- Serpent Eye -->
+  <circle cx="24.5" cy="11.5" r="0.3" fill="#FFFFFF"/>
+  
+  <!-- Serpent Tail -->
+  <circle cx="10" cy="24" r="0.8" fill="url(#serpentGradient)"/>
+  
+  <!-- Esoteric Symbols - Dots pattern -->
+  <circle cx="12" cy="8" r="0.4" fill="#DC143C" opacity="0.8"/>
+  <circle cx="20" cy="8" r="0.4" fill="#DC143C" opacity="0.8"/>
+  <circle cx="16" cy="6" r="0.3" fill="#FFFFFF" opacity="0.9"/>
+  
+  <!-- Gothic Cross -->
+  <path d="M 16 10 L 16 12 M 15 11 L 17 11" 
+        stroke="#FFFFFF" 
+        stroke-width="0.4" 
+        stroke-linecap="round"/>
+  
+  <!-- Fashion Diamond -->
+  <path d="M 16 20 L 17 22 L 16 24 L 15 22 Z" 
+        fill="#DC143C" 
+        opacity="0.7"/>
+  
+  <!-- Mystical Runes (Abstract) -->
+  <path d="M 7 15 L 9 17 M 8 15 L 8 17" 
+        stroke="#FFFFFF" 
+        stroke-width="0.3" 
+        opacity="0.5"/>
+  <path d="M 23 20 L 25 22 M 24 20 L 24 22" 
+        stroke="#FFFFFF" 
+        stroke-width="0.3" 
+        opacity="0.5"/>
+  
+  <!-- Elegant Flourish -->
+  <path d="M 6 20 Q 8 18 10 20" 
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="0.2" 
+        opacity="0.4"/>
+  <path d="M 22 24 Q 24 22 26 24" 
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="0.2" 
+        opacity="0.4"/>
+  
+  <!-- Text "prendas6.55" - Stylized and subtle -->
+  <text x="16" y="30" 
+        font-family="serif" 
+        font-size="2.5" 
+        font-weight="bold" 
+        text-anchor="middle" 
+        fill="#FFFFFF" 
+        opacity="0.7"
+        style="letter-spacing: -0.2px;">prendas6.55</text>
+</svg>

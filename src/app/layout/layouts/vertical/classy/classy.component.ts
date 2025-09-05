@@ -7,6 +7,9 @@ import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import { AuthService } from 'app/core/services/firebase/auth.service';
+import { User as FirebaseUser } from 'app/core/models/user.model';
+import { AuthFirebaseService } from 'app/core/services/firebase/auth-firebase.service';
 
 @Component({
     selector     : 'classy-layout',
@@ -18,6 +21,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     isScreenSmall: boolean;
     navigation: Navigation;
     user: User;
+    firebaseUser: FirebaseUser | null = null;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -28,6 +32,9 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         private _router: Router,
         private _navigationService: NavigationService,
         private _userService: UserService,
+        private _authService: AuthService,
+        //private _afAuth: AngularFireAuth,
+        private _afAuth : AuthFirebaseService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService
     )
@@ -69,6 +76,14 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
                 this.user = user;
             });
 
+        // Subscribe to Firebase auth user
+        this._afAuth.currentUser$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((firebaseUser: FirebaseUser | null) => {
+
+                this.firebaseUser = firebaseUser;
+            });
+
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -108,5 +123,58 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             // Toggle the opened status
             navigation.toggle();
         }
+    }
+
+    /**
+     * Get user initials for avatar
+     */
+    getUserInitials(): string
+    {
+        if (!this.firebaseUser) {
+            return 'U';
+        }
+
+        const firstName = this.firebaseUser.firstName || '';
+        const lastName = this.firebaseUser.lastName || '';
+        const displayName = this.firebaseUser.displayName || '';
+        const email = this.firebaseUser.email || '';
+
+        if (firstName && lastName) {
+            return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+        } else if (displayName) {
+            const names = displayName.split(' ');
+            if (names.length >= 2) {
+                return (names[0].charAt(0) + names[names.length - 1].charAt(0)).toUpperCase();
+            } else {
+                return displayName.charAt(0).toUpperCase();
+            }
+        } else if (email) {
+            return email.charAt(0).toUpperCase();
+        }
+
+        return 'U';
+    }
+
+    /**
+     * Get user display name
+     */
+    getUserDisplayName(): string
+    {
+        if (!this.firebaseUser) {
+            return 'Usuario';
+        }
+
+        return this.firebaseUser.displayName || 
+               `${this.firebaseUser.firstName || ''} ${this.firebaseUser.lastName || ''}`.trim() ||
+               this.firebaseUser.email ||
+               'Usuario';
+    }
+
+    /**
+     * Get user email
+     */
+    getUserEmail(): string
+    {
+        return this.firebaseUser?.email || '';
     }
 }

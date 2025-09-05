@@ -9,13 +9,17 @@ export interface GenericCardData {
     price?: number;
     badge?: {
         text: string;
-        type: 'success' | 'warning' | 'error' | 'info' | 'primary';
+        type: 'success' | 'warning' | 'error' | 'info' | 'primary' | 'secondary' | 'accent';
     };
     meta?: {
         author?: string;
         date?: Date | string;
         rating?: number;
         views?: number;
+        capabilities?: string[];
+        apiCalls?: string;
+        responseTime?: string;
+        totalRatings?: number;
     };
     tags?: string[];
     [key: string]: any;
@@ -139,6 +143,10 @@ export class GenericCardComponent {
                 return [...baseClasses, 'bg-blue-500', 'text-white'].join(' ');
             case 'primary':
                 return [...baseClasses, 'bg-primary-500', 'text-white'].join(' ');
+            case 'secondary':
+                return [...baseClasses, 'bg-gray-500', 'text-white'].join(' ');
+            case 'accent':
+                return [...baseClasses, 'bg-purple-500', 'text-white'].join(' ');
             default:
                 return [...baseClasses, 'bg-gray-500', 'text-white'].join(' ');
         }

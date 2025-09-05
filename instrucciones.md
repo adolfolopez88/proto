@@ -134,7 +134,30 @@ posicionate dentro de la carpeta de `app/modules/auth/sign-up` en su interior en
 
 ### 18 Firebase Menssaging
 
--**Servicio Menssaging** crea un componente capaz de usar Firebase Menssaging que envie un mensaje de los posibles tipos que consideres para una version inicial.  los mensajes deben ser dirigidos a los usuarios que tengamos registrados. seran enviados a traves de un boton ubicado en una lista usuarios.
--**Crear Lista** crear un componente de lista con el cual sea posible la interaccion
--**Boton Mensaje** desplegara un formulario con el que se podra escribie el mensaje enviado
--**Rutas al nuevo componente** crear las rutas para acceder al componente
+- crea un servicio en la ruta `app/core/service/fiebase` para  Firebase Cloud Messaging JS
+- Agrega el SDK de Firebase Cloud Messaging JS y, luego, inicializa Firebase Cloud Messaging una vez que se inicialize el app
+- resive los mensajes y muestralo en la pagina 
+- expande esta instruccion para hacer una funcionalidad util
+
+
+### 18 Firebase Menssaging
+
+- crea un servicio en la ruta `app/core/service/fiebase` para  Firebase Cloud Messaging JS
+- Agrega el SDK de Firebase Cloud Messaging JS y, luego, inicializa Firebase Cloud Messaging una vez que se inicialize el app
+- resive los mensajes y muestralo en la pagina 
+- expande esta instruccion para hacer una funcionalidad util
+
+
+### 19 Classy Layout.
+
+- `src/app/layouts/vertical/classy` dentro encontraras una seccion que momienza con el tag <!-- User --> edita los datos del usuario de modo que tome el usuario loggeado con los datos almacenados en firebase. de no tener imagen de avatar por una por defecto con su inicial de nombre.
+  
+### 20 Mantenedor de prompt 
+
+- `src/modules/admin/` en esta ruta crea un mantenedor de prompt haciendo uso de AngularFirestore y de la configuracion establecida crea un mantenedor que permita eliminar editar, crear y listar los prompt que desee guardar dales categorias y campos que consideres necesarios para la creacion de un buen prompt 
+- expande esta instruccion con las funcionalidades adicionales que consideres utiles
+
+
+### 21 Productos 
+- **Producto Detalle** posicionate en la pagina `src/modules/admin/cards/products` y crea para cada tarjeta una vista de detalle
+- **extiende y cambia el detalle de cada producto** crea diferentes tipos de agentes ia como productos de ejemplos

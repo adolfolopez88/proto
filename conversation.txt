@@ -2572,4 +2572,3 @@
   existentes, y proporcionando una experiencia de registro optimizada
   específicamente para usuarios de tipo cliente con todas las validaciones y
   funcionalidades requeridas.
-

@@ -1,0 +1,108 @@
+/* Custom styles for messaging demo */
+.messaging-demo {
+    /* Animation for new messages */
+    .new-message {
+        animation: slideInRight 0.3s ease-out;
+    }
+
+    /* Highlight unread messages */
+    .unread-message {
+        border-left: 4px solid theme('colors.blue.500');
+    }
+
+    /* Token textarea styling */
+    .token-textarea {
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        resize: none;
+        
+        &:focus {
+            outline: none;
+            ring: 2px;
+            ring-color: theme('colors.blue.500');
+        }
+    }
+
+    /* Status indicators */
+    .status-indicator {
+        position: relative;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -12px;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: currentColor;
+        }
+    }
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Notification badge animation */
+.notification-badge {
+    animation: pulse 2s infinite;
+}
+
+/* Custom scrollbar for message list */
+.message-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.5);
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(156, 163, 175, 0.7);
+    }
+}
+
+/* Dark mode adjustments */
+.dark {
+    .token-textarea {
+        background-color: rgb(55, 65, 81);
+        border-color: rgb(75, 85, 99);
+        color: rgb(243, 244, 246);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .messaging-demo {
+        .grid-cols-3 {
+            grid-template-columns: 1fr;
+        }
+    }
+}

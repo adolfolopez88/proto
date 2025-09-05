@@ -1,0 +1,35 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Chicken drumstick -->
+  <g>
+    <!-- Drumstick meat -->
+    <ellipse cx="8" cy="18" rx="4" ry="6" fill="#FFB347" stroke="#000" stroke-width="0.5"/>
+    <!-- Drumstick bone -->
+    <ellipse cx="8" cy="12" rx="1.5" ry="2" fill="#F5DEB3" stroke="#000" stroke-width="0.5"/>
+    <!-- Crispy texture dots -->
+    <circle cx="6.5" cy="16" r="0.5" fill="#FF6B35"/>
+    <circle cx="9.5" cy="19" r="0.5" fill="#FF6B35"/>
+    <circle cx="7" cy="20" r="0.5" fill="#FF6B35"/>
+  </g>
+  
+  <!-- French fries container -->
+  <g>
+    <!-- Container base -->
+    <rect x="16" y="16" width="12" height="12" rx="1" fill="#FFD700" stroke="#000" stroke-width="0.5"/>
+    <!-- Container top fold -->
+    <path d="M16 16 L28 16 L26 14 L18 14 Z" fill="#FFA500" stroke="#000" stroke-width="0.5"/>
+    
+    <!-- French fries -->
+    <rect x="18" y="10" width="1.5" height="8" fill="#FFB347" stroke="#000" stroke-width="0.3"/>
+    <rect x="20.5" y="8" width="1.5" height="10" fill="#FFB347" stroke="#000" stroke-width="0.3"/>
+    <rect x="23" y="9" width="1.5" height="9" fill="#FFB347" stroke="#000" stroke-width="0.3"/>
+    <rect x="25.5" y="7" width="1.5" height="11" fill="#FFB347" stroke="#000" stroke-width="0.3"/>
+    
+    <!-- Fries salt dots -->
+    <circle cx="19" cy="12" r="0.3" fill="#FFF"/>
+    <circle cx="21" cy="14" r="0.3" fill="#FFF"/>
+    <circle cx="24" cy="13" r="0.3" fill="#FFF"/>
+  </g>
+  
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="none" stroke="#000" stroke-width="1" opacity="0.1"/>
+</svg>

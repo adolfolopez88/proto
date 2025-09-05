@@ -11,8 +11,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },*/
     {
         id      : 'cards',
-        title   : 'Card Examples',
-        subtitle: 'Generic card components showcase',
+        title   : 'Tiendita',
+        subtitle: 'Encuentra nuestros productos y servicicios',
         type    : 'collapsable',
         icon    : 'heroicons_outline:view-grid',
         children: [
@@ -22,7 +22,9 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 icon : 'heroicons_outline:shopping-bag',
                 link : '/cards/products'
-            },
+            }
+            
+            /*,
             {
                 id   : 'cards.postcards',
                 title: 'Postcards',
@@ -36,7 +38,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 icon : 'heroicons_outline:user-group',
                 link : '/cards/characters'
-            }
+            }*/
         ]
     },
     {
@@ -57,8 +59,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'messaging',
         title: 'Firebase Messaging',
         type : 'basic',
-        icon : 'heroicons_outline:chat-bubble-left-right',
+        icon : 'heroicons_outline:document',
         link : '/messaging'
+    },
+    {
+        id   : 'prompt-management',
+        title: 'Prompt management',
+        type : 'basic',
+        icon : 'heroicons_outline:fire',
+        link : '/prompt-management'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [

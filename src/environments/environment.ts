@@ -6,7 +6,10 @@ import { firebaseConfig } from '../app/core/config/firebase.config';
 
 export const environment = {
     production: false,
-    firebase: firebaseConfig
+    firebase: {
+        ...firebaseConfig,
+        vapidKey: 'YOUR_VAPID_KEY_HERE' // Reemplazar con tu VAPID key real
+    }
 };
 
 /*

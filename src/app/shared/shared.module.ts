@@ -48,9 +48,8 @@ import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 // Custom Components
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
-// Services
-import { MessagingService } from './services/messaging.service';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { GenericCardComponent } from './components/generic-card/generic-card.component';
@@ -105,7 +104,8 @@ const CUSTOM_COMPONENTS = [
     GenericFormComponent,
     DynamicFormComponent,
     ConfirmDialogComponent,
-    GenericCardComponent
+    GenericCardComponent,
+    NotificationsComponent
 ];
 
 @NgModule({

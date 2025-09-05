@@ -155,16 +155,16 @@ export class AuthFirebaseService {
         
         return this.firebaseService.signInWithGoogle$().pipe(
             switchMap(result => {
-                return this.userService.getUserByEmail(result.user!.email!).pipe(
+                return this.userService.getUserByEmail(result.user.email).pipe(
                     switchMap(existingUser => {
                         if (!existingUser) {
                             // Create new user from Google profile
                             const userData: CreateUserRequest = {
-                                email: result.user!.email!,
-                                displayName: result.user!.displayName || '',
-                                firstName: result.user!.displayName?.split(' ')[0] || '',
-                                lastName: result.user!.displayName?.split(' ').slice(1).join(' ') || '',
-                                avatar: result.user!.photoURL || '',
+                                email: result.user.email,
+                                displayName: result.user.displayName || '',
+                                firstName: result.user.displayName?.split(' ')[0] || '',
+                                lastName: result.user.displayName?.split(' ').slice(1).join(' ') || '',
+                                avatar: result.user.photoURL || '',
                                 role: 'user',
                                 isActive: true
                             };
@@ -235,7 +235,7 @@ export class AuthFirebaseService {
     get currentUser(): User | null {
         return this.currentUserSubject.value;
     }
-
+  
     get isAuthenticated(): boolean {
         return !!this.currentUser;
     }

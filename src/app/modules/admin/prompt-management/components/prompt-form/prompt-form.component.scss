@@ -1,0 +1,104 @@
+.prompt-form {
+    .mat-card {
+        margin-bottom: 24px;
+        
+        .mat-card-header {
+            .mat-card-title {
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 0;
+            }
+        }
+
+        .mat-card-content {
+            .mat-form-field {
+                width: 100%;
+                
+                &.half-width {
+                    width: calc(50% - 12px);
+                }
+            }
+
+            .form-row {
+                display: flex;
+                gap: 24px;
+                align-items: flex-start;
+            }
+        }
+    }
+
+    .variables-section,
+    .examples-section {
+        .variable-item,
+        .example-item {
+            border: 1px solid var(--fuse-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+
+            .remove-button {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+            }
+        }
+
+        .add-button {
+            width: 100%;
+            border: 2px dashed var(--fuse-border);
+            padding: 16px;
+            background: transparent;
+            
+            &:hover {
+                background-color: var(--fuse-bg-hover);
+            }
+        }
+    }
+
+    .actions-section {
+        border-top: 1px solid var(--fuse-border);
+        padding-top: 24px;
+        margin-top: 24px;
+    }
+
+    .mat-chip-list {
+        .mat-chip {
+            background-color: var(--fuse-primary-100);
+            color: var(--fuse-primary-800);
+        }
+    }
+
+    .content-preview {
+        background-color: var(--fuse-bg-default);
+        border: 1px solid var(--fuse-border);
+        border-radius: 8px;
+        padding: 16px;
+        font-family: 'Monaco', 'Consolas', monospace;
+        font-size: 13px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+}
+
+/* Dark theme */
+.dark {
+    .prompt-form {
+        .variables-section,
+        .examples-section {
+            .variable-item,
+            .example-item {
+                background-color: var(--fuse-bg-card);
+                border-color: var(--fuse-border);
+            }
+        }
+
+        .content-preview {
+            background-color: var(--fuse-bg-card);
+            border-color: var(--fuse-border);
+            color: var(--fuse-text-default);
+        }
+    }
+}

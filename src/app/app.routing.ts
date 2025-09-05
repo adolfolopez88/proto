@@ -62,6 +62,7 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
             {path: 'foundation', loadChildren: () => import('app/modules/landing/foundation/foundation.module').then(m => m.LandingFoundationModule)},
+            {path: 'landing-pro', loadChildren: () => import('app/modules/landing/landing-pro/landing-pro.module').then(m => m.LandingProModule)},
         ]
     },
     
@@ -79,6 +80,7 @@ export const appRoutes: Route[] = [
             {path: 'firebase-example', loadChildren: () => import('app/modules/admin/example/firebase-example/firebase-example.module').then(m => m.FirebaseExampleModule)},
             {path: 'firebase-migration', loadChildren: () => import('app/modules/admin/example/firebase-migration/firebase-migration.module').then(m => m.FirebaseMigrationModule)},
             {path: 'user-management', loadChildren: () => import('app/modules/admin/user-management/user-management.module').then(m => m.UserManagementModule)},
+            {path: 'prompt-management', loadChildren: () => import('app/modules/admin/prompt-management/prompt-management.module').then(m => m.PromptManagementModule)},
             
             // Card Examples
             {path: 'cards/products', loadChildren: () => import('app/modules/admin/cards/products/products.module').then(m => m.ProductsModule)},
@@ -86,13 +88,13 @@ export const appRoutes: Route[] = [
             {path: 'cards/characters', loadChildren: () => import('app/modules/admin/cards/characters/characters.module').then(m => m.CharactersModule)},
             
             // Messaging
-            {path: 'messaging', loadChildren: () => import('app/modules/admin/messaging/messaging.module').then(m => m.MessagingModule)},
+            {path: 'messaging', loadChildren: () => import('app/modules/messaging/messaging.module').then(m => m.MessagingModule)},
         ]
     },
 
-    // Catch all route - must be last
+    /*Catch all route - must be last
     {
         path: '**',
         redirectTo: 'firebase-migration'
-    }
+    }*/
 ];

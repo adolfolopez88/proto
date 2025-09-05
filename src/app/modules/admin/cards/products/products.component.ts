@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -36,7 +37,8 @@ export class ProductsComponent implements OnInit {
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _router: Router
     ) {}
 
     ngOnInit(): void {
@@ -172,14 +174,11 @@ export class ProductsComponent implements OnInit {
     }
 
     /**
-     * Handle product click
-     */
+     * Handle product click - Navigate to detail view
+     
     onProductClick(product: GenericCardData): void {
-        this._snackBar.open(`Viewing ${product.title}`, 'Close', {
-            duration: 2000
-        });
-        console.log('Product clicked:', product);
-    }
+        this._router.navigate(['/admin/cards/products/detail', product.id]);
+    }*/
 
     /**
      * Handle favorite toggle
@@ -206,10 +205,9 @@ export class ProductsComponent implements OnInit {
         const { data: product, action } = event;
         
         switch (action.id) {
-            case 'buy':
-                this._snackBar.open(`Added ${product.title} to cart`, 'Close', {
-                    duration: 2000
-                });
+            case 'detail':
+                console.log(product.id);
+                this._router.navigateByUrl(`/cards/products/detail/${product.id}`);
                 break;
             case 'compare':
                 this._snackBar.open(`Added ${product.title} to comparison`, 'Close', {
@@ -262,12 +260,12 @@ export class ProductsComponent implements OnInit {
     getProductActions(product: GenericCardData): CardAction[] {
         const actions: CardAction[] = [
             {
-                id: 'buy',
-                label: 'Buy Now',
-                icon: 'shopping_cart',
+                id: 'detail',
+                label: 'Detalle',
+                icon: 'info',
                 color: 'primary',
                 primary: true,
-                disabled: !(product as any).inStock
+                disabled: false
             }
         ];
 

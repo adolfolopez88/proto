@@ -24,7 +24,8 @@
             </div>
         </div>
         <!-- User -->
-        <div class="flex flex-col items-center w-full p-4">
+        <div class="flex flex-col items-center w-full p-4" *ngIf="firebaseUser != null">
+         
             <div class="relative w-24 h-24">
                 <img
                     class="w-full h-full rounded-full"
@@ -38,10 +39,10 @@
             </div>
             <div class="flex flex-col items-center justify-center w-full mt-6">
                 <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium">
-                    {{user.name}}
+                    {{firebaseUser?.firstName}}   {{firebaseUser?.lastName}}
                 </div>
                 <div class="w-full mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
-                    {{user.email}}
+                    {{firebaseUser?.email}}
                 </div>
             </div>
         </div>

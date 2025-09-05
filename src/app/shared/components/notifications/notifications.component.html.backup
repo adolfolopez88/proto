@@ -1,0 +1,127 @@
+<!-- Notification Bell Icon -->
+<div class="relative">
+    <!-- Bell Button -->
+    <button
+        class="notification-bell relative flex items-center justify-center w-10 h-10 text-current rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        (click)="toggleNotifications()"
+        [class.text-primary]="unreadCount > 0">
+        
+        <!-- Bell Icon -->
+        <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:bell'"></mat-icon>
+        
+        <!-- Unread Badge -->
+        <div 
+            *ngIf="unreadCount > 0"
+            class="absolute -top-1 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-xs font-medium text-white bg-red-500 rounded-full">
+            {{ unreadCount > 99 ? '99+' : unreadCount }}
+        </div>
+    </button>
+
+    <!-- Notifications Panel -->
+    <div 
+        *ngIf="isOpen"
+        class="absolute top-12 right-0 w-80 max-h-96 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                Notificaciones
+            </h3>
+            <button 
+                *ngIf="messages.length > 0"
+                (click)="clearAll()"
+                class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                Limpiar todo
+            </button>
+        </div>
+
+        <!-- Messages List -->
+        <div class="max-h-80 overflow-y-auto">
+            <!-- Empty State -->
+            <div 
+                *ngIf="messages.length === 0"
+                class="flex flex-col items-center justify-center p-8 text-gray-500 dark:text-gray-400">
+                <mat-icon class="icon-size-12 mb-4" [svgIcon]="'heroicons_outline:bell-slash'"></mat-icon>
+                <p class="text-sm">No hay notificaciones</p>
+            </div>
+
+            <!-- Messages -->
+            <ng-container *ngFor="let message of messages; trackBy: trackByFn">
+                <div class="border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                    <div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                         [class.bg-blue-50]="message.read === false"
+                         [class.dark:bg-blue-900/20]="message.read === false">
+                        
+                        <!-- Message Content -->
+                        <div class="flex items-start space-x-3">
+                            <!-- Icon -->
+                            <div class="flex-shrink-0">
+                                <ng-container *ngIf="message.icon; else defaultIcon">
+                                    <img [src]="message.icon" alt="Notification" class="w-8 h-8 rounded-full">
+                                </ng-container>
+                                <ng-template #defaultIcon>
+                                    <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                                        <mat-icon class="icon-size-4 text-blue-600 dark:text-blue-400" 
+                                                  [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
+                                    </div>
+                                </ng-template>
+                            </div>
+
+                            <!-- Message Text -->
+                            <div class="flex-1 min-w-0">
+                                <p *ngIf="message.title" 
+                                   class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                    {{ message.title }}
+                                </p>
+                                <p *ngIf="message.body" 
+                                   class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                                    {{ message.body }}
+                                </p>
+                                
+                                <!-- Timestamp -->
+                                <p class="text-xs text-gray-400 mt-2">
+                                    {{ getRelativeTime(message.timestamp) }}
+                                </p>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex-shrink-0 flex items-center space-x-1">
+                                <!-- Mark as read -->
+                                <button 
+                                    *ngIf="message.read === false"
+                                    (click)="markAsRead(message.id)"
+                                    class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900"
+                                    title="Marcar como leído">
+                                    <mat-icon class="icon-size-4" [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                </button>
+
+                                <!-- Delete -->
+                                <button 
+                                    (click)="deleteMessage(message.id)"
+                                    class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900"
+                                    title="Eliminar">
+                                    <mat-icon class="icon-size-4" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+        <!-- Footer -->
+        <div *ngIf="messages.length > 0" 
+             class="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+            <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                {{ messages.length }} notificación{{ messages.length !== 1 ? 'es' : '' }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div 
+        *ngIf="isOpen"
+        class="fixed inset-0 z-40"
+        (click)="toggleNotifications()">
+    </div>
+</div>

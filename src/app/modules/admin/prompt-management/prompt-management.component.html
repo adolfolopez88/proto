@@ -1,0 +1,125 @@
+<!-- Header -->
+
+<div class="flex-wrap w-full">
+<div class="flex lg:flex-row items-start lg:items-center lg:justify-between py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 border-b bg-white dark:bg-gray-900">
+    <!-- Title & Description -->
+    <div class="flex-1 min-w-0">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white">
+            🤖 Gestión de Prompts
+        </h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Crea, organiza y gestiona prompts inteligentes para IA
+        </p>
+    </div>
+    
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row gap-2 mt-4 lg:mt-0 lg:ml-6 w-full sm:w-auto">
+        <!-- Quick Stats (Mobile Hidden) -->
+        <div class="hidden md:flex items-center gap-4 mr-4">
+            <div class="text-center">
+                <div class="text-lg font-semibold text-primary-600">12</div>
+                <div class="text-xs text-gray-500">Prompts</div>
+            </div>
+            <div class="text-center">
+                <div class="text-lg font-semibold text-green-600">8</div>
+                <div class="text-xs text-gray-500">Activos</div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <button
+            class="w-full sm:w-auto"
+            mat-stroked-button
+            (click)="navigateToCategories()">
+            <mat-icon [svgIcon]="'heroicons_outline:tag'"></mat-icon>
+            <span class="ml-2 hidden sm:inline">Categorías</span>
+        </button>
+        
+        <button
+            class="w-full sm:w-auto"
+            mat-flat-button
+            [color]="'primary'"
+            (click)="navigateToCreate()">
+            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            <span class="ml-2">Crear Prompt</span>
+        </button>
+    </div>
+</div>
+
+<!-- Navigation Tabs - Mobile Responsive -->
+<div class="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b">
+    <!-- Mobile Tab Selector -->
+    <div class="block sm:hidden">
+        <mat-form-field class="w-full p-4" appearance="outline">
+            <mat-label>Seleccionar vista</mat-label>
+            <mat-select [value]="getCurrentTab()" (selectionChange)="onTabChange($event.value)">
+                <mat-option value="list">
+                    <mat-icon [svgIcon]="'heroicons_outline:view-list'" class="mr-2"></mat-icon>
+                    Lista de Prompts
+                </mat-option>
+                <mat-option value="categories">
+                    <mat-icon [svgIcon]="'heroicons_outline:tag'" class="mr-2"></mat-icon>
+                    Categorías
+                </mat-option>
+                <mat-option value="stats">
+                    <mat-icon [svgIcon]="'heroicons_outline:chart-bar'" class="mr-2"></mat-icon>
+                    Estadísticas
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    
+    <!-- Desktop Tabs -->
+    <nav class="hidden sm:flex overflow-x-auto px-4 sm:px-6 lg:px-8" aria-label="Tabs">
+        <div class="flex space-x-1 sm:space-x-4 lg:space-x-8 min-w-max">
+            <button
+                class="flex items-center whitespace-nowrap py-3 px-3 sm:px-4 border-b-2 font-medium text-sm transition-colors"
+                [class.border-primary-500]="router.url.includes('/list')"
+                [class.text-primary-600]="router.url.includes('/list')"
+                [class.bg-primary-50]="router.url.includes('/list')"
+                [class.border-transparent]="!router.url.includes('/list')"
+                [class.text-gray-500]="!router.url.includes('/list')"
+                [class.hover:text-gray-700]="!router.url.includes('/list')"
+                (click)="navigateToList()">
+                <mat-icon [svgIcon]="'heroicons_outline:view-list'" class="w-4 h-4 mr-2"></mat-icon>
+                <span>Lista</span>
+                <span class="hidden lg:inline ml-1">de Prompts</span>
+            </button>
+            
+            <button
+                class="flex items-center whitespace-nowrap py-3 px-3 sm:px-4 border-b-2 font-medium text-sm transition-colors"
+                [class.border-primary-500]="router.url.includes('/categories')"
+                [class.text-primary-600]="router.url.includes('/categories')"
+                [class.bg-primary-50]="router.url.includes('/categories')"
+                [class.border-transparent]="!router.url.includes('/categories')"
+                [class.text-gray-500]="!router.url.includes('/categories')"
+                [class.hover:text-gray-700]="!router.url.includes('/categories')"
+                (click)="navigateToCategories()">
+                <mat-icon [svgIcon]="'heroicons_outline:tag'" class="w-4 h-4 mr-2"></mat-icon>
+                <span>Categorías</span>
+            </button>
+            
+            <button
+                class="flex items-center whitespace-nowrap py-3 px-3 sm:px-4 border-b-2 font-medium text-sm transition-colors"
+                [class.border-primary-500]="router.url.includes('/stats')"
+                [class.text-primary-600]="router.url.includes('/stats')"
+                [class.bg-primary-50]="router.url.includes('/stats')"
+                [class.border-transparent]="!router.url.includes('/stats')"
+                [class.text-gray-500]="!router.url.includes('/stats')"
+                [class.hover:text-gray-700]="!router.url.includes('/stats')"
+                (click)="navigateToStats()">
+                <mat-icon [svgIcon]="'heroicons_outline:chart-bar'" class="w-4 h-4 mr-2"></mat-icon>
+                <span>Estadísticas</span>
+            </button>
+        </div>
+    </nav>
+</div>
+
+<!-- Content -->
+<div class="flex flex-auto overflow-hidden">
+    <div class="flex flex-col flex-auto overflow-hidden">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+</div>

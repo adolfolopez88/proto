@@ -1,0 +1,71 @@
+.prompt-management {
+    .mat-flat-button {
+        min-width: auto;
+    }
+
+    .prompt-tabs {
+        .mat-tab-group {
+            .mat-tab-header {
+                .mat-tab-list {
+                    .mat-tab-labels {
+                        .mat-tab-label {
+                            min-width: 120px;
+                            padding: 0 24px;
+                            
+                            &.mat-tab-label-active {
+                                color: var(--fuse-primary-500);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .prompt-grid {
+        .prompt-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.1);
+            }
+
+            .prompt-category {
+                &.basic { background-color: #e3f2fd; color: #1976d2; }
+                &.intermediate { background-color: #fff3e0; color: #f57c00; }
+                &.advanced { background-color: #fce4ec; color: #c2185b; }
+            }
+
+            .prompt-rating {
+                .star {
+                    color: #ffc107;
+                }
+            }
+        }
+    }
+
+    .search-filters {
+        .mat-form-field {
+            .mat-form-field-wrapper {
+                .mat-form-field-infix {
+                    border-top: none;
+                }
+            }
+        }
+    }
+}
+
+/* Dark theme overrides */
+.dark {
+    .prompt-management {
+        .prompt-grid {
+            .prompt-card {
+                &:hover {
+                    box-shadow: 0 8px 25px -8px rgba(255, 255, 255, 0.05);
+                }
+            }
+        }
+    }
+}

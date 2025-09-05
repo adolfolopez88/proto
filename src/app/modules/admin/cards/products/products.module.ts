@@ -14,17 +14,21 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 
 // Shared
 import { SharedModule } from 'app/shared/shared.module';
 
 // Components
 import { ProductsComponent } from './products.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { productsRoutes } from './products.routing';
 
 @NgModule({
     declarations: [
-        ProductsComponent
+        ProductsComponent,
+        ProductDetailComponent
     ],
     imports: [
         CommonModule,
@@ -42,6 +46,8 @@ import { productsRoutes } from './products.routing';
         MatProgressSpinnerModule,
         MatSnackBarModule,
         MatTooltipModule,
+        MatTabsModule,
+        MatCardModule,
         
         // Shared
         SharedModule
