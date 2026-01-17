@@ -17,13 +17,18 @@ export interface NotificationMessage {
     providedIn: 'root'
 })
 export class MessagingService {
-    private messaging = getMessaging();
+    private messaging: any = null;
     private currentToken: string | null = null;
     private readonly _messages = new BehaviorSubject<NotificationMessage[]>([]);
     private readonly _newMessage = new BehaviorSubject<NotificationMessage | null>(null);
+    private isInitialized = false;
 
     constructor() {
-        this.initializeMessaging();
+        // NO inicializar messaging aquí, esperar a que se llame desde el componente
+        // o verificar que el DOM esté listo
+        if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+            this.initializeMessaging();
+        }
     }
 
     /**
@@ -44,7 +49,21 @@ export class MessagingService {
      * Inicializar Firebase Cloud Messaging
      */
     private async initializeMessaging(): Promise<void> {
+        if (this.isInitialized) {
+            return;
+        }
+
         try {
+            // Verificar que estamos en un entorno de navegador
+            if (typeof window === 'undefined' || typeof document === 'undefined') {
+                console.warn('Firebase Messaging solo disponible en navegador');
+                return;
+            }
+
+            // Inicializar messaging solo cuando sea seguro
+            this.messaging = getMessaging();
+            this.isInitialized = true;
+
             // Registrar service worker si está disponible
             if ('serviceWorker' in navigator) {
                 const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
@@ -63,15 +82,25 @@ export class MessagingService {
      */
     async requestPermission(): Promise<string | null> {
         try {
+            // Asegurar que messaging esté inicializado
+            if (!this.isInitialized) {
+                await this.initializeMessaging();
+            }
+
+            if (!this.messaging) {
+                console.error('Firebase Messaging no está disponible');
+                return null;
+            }
+
             const permission = await Notification.requestPermission();
-            
+
             if (permission === 'granted') {
                 console.log('Permiso de notificaciones concedido');
-                
+
                 const token = await getToken(this.messaging, {
                     vapidKey: environment.firebase?.vapidKey || 'YOUR_VAPID_KEY_HERE'
                 });
-                
+
                 if (token) {
                     console.log('Token FCM:', token);
                     this.currentToken = token;
@@ -101,9 +130,14 @@ export class MessagingService {
      * Configurar listener para mensajes en primer plano
      */
     private setupForegroundMessageListener(): void {
+        if (!this.messaging) {
+            console.warn('Cannot setup message listener: messaging not initialized');
+            return;
+        }
+
         onMessage(this.messaging, (payload: MessagePayload) => {
             console.log('Mensaje recibido en primer plano:', payload);
-            
+
             const notification: NotificationMessage = {
                 id: this.generateId(),
                 title: payload.notification?.title,

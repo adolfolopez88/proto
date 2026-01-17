@@ -173,12 +173,6 @@ export class ProductsComponent implements OnInit {
                this.sortBy !== 'name';
     }
 
-    /**
-     * Handle product click - Navigate to detail view
-     
-    onProductClick(product: GenericCardData): void {
-        this._router.navigate(['/admin/cards/products/detail', product.id]);
-    }*/
 
     /**
      * Handle favorite toggle
@@ -206,7 +200,6 @@ export class ProductsComponent implements OnInit {
         
         switch (action.id) {
             case 'detail':
-                console.log(product.id);
                 this._router.navigateByUrl(`/cards/products/detail/${product.id}`);
                 break;
             case 'compare':
@@ -220,8 +213,6 @@ export class ProductsComponent implements OnInit {
                 });
                 break;
         }
-        
-        console.log('Product action:', action.id, product);
     }
 
     /**
@@ -289,7 +280,7 @@ export class ProductsComponent implements OnInit {
     /**
      * Track by function for products
      */
-    trackByProduct(index: number, product: GenericCardData): string | number {
+    trackByProduct(_index: number, product: GenericCardData): string | number {
         return product.id;
     }
 }

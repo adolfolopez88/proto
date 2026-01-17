@@ -1,0 +1,65 @@
+# Node modules
+node_modules/
+npm-debug.log
+
+# Build outputs
+dist/
+.angular/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Testing
+coverage/
+*.spec.ts
+
+# Documentation
+*.md
+doc/
+claudedocs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Firebase
+.firebase/
+.firebaserc
+firebase.json
+firebase-debug.log
+
+# Deployment scripts
+deploy*.sh
+deploy*.ps1
+verify-docker.ps1
+DOCKER_DEPLOY.md
+DEPLOY*.md
+*.md
+
+# IMPORTANT: Do NOT ignore these
+!nginx.conf
+!Dockerfile
+!docker-compose.yml
+
+# Backup files
+*_backup/
+*.bak

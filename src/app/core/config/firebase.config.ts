@@ -1,6 +1,7 @@
 export const firebaseConfig = {
-    apiKey: "AIzaSyAky5dltJTCGjWhFEXV17BY-GEWZ8W32G8",
-    authDomain: "proto-c51d8.firebaseapp.com",
+    apiKey: "",
+    vapidKey: "",
+    authDomain: "",
     projectId: "proto-c51d8",
     storageBucket: "proto-c51d8.appspot.com",
     messagingSenderId: "1061232766933",

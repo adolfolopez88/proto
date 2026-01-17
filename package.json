@@ -9,9 +9,18 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
+        "build:prod": "ng build --configuration production",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
-        "lint": "ng lint"
+        "lint": "ng lint",
+        "deploy:firebase": "ng build --configuration production && firebase deploy --only hosting",
+        "deploy:firebase:preview": "ng build --configuration production && firebase hosting:channel:deploy preview",
+        "firebase:serve": "ng build --configuration production && firebase serve",
+        "deploy:do": "powershell -ExecutionPolicy Bypass -File ./deploy-do.ps1",
+        "deploy:docker-simple": "powershell -ExecutionPolicy Bypass -File ./deploy-docker-simple.ps1",
+        "deploy:do:linux": "bash ./deploy-do.sh",
+        "fix-deploy": "powershell -ExecutionPolicy Bypass -File ./fix-and-deploy.ps1",
+        "rebuild": "powershell -ExecutionPolicy Bypass -File ./rebuild-clean.ps1"
     },
     "dependencies": {
         "@angular/animations": "14.1.3",

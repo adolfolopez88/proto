@@ -177,6 +177,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
 
     onBackToProducts(): void {
-        this.router.navigate(['/admin/cards/products']);
+        this.router.navigate(['/cards/products']);
     }
 }

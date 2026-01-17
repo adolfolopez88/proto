@@ -5,62 +5,156 @@
             Characters Universe
         </h1>
         <p class="text-gray-600 dark:text-gray-300">
-            Meet legendary characters from movies, books, and games
+            Gestiona tu colección de personajes únicos para historias y juegos
         </p>
+    </div>
+    <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="createNewCharacter()"
+            class="flex items-center">
+            <mat-icon class="mr-2">add</mat-icon>
+            Crear Personaje
+        </button>
     </div>
 </div>
 
 <!-- Filters -->
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
-    <div class="flex flex-col lg:flex-row gap-4">
+    <!-- Primary Filters Row -->
+    <div class="flex flex-col lg:flex-row gap-4 mb-4">
         <!-- Search -->
         <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Search characters</mat-label>
+            <mat-label>Buscar personajes</mat-label>
             <input 
                 matInput 
                 [(ngModel)]="searchTerm"
                 (ngModelChange)="onSearchChange()"
-                placeholder="Search by name, universe, or abilities">
+                placeholder="Buscar por nombre, descripción, habilidades...">
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
         
-        <!-- Universe Filter -->
+        <!-- Character Type Filter -->
         <mat-form-field appearance="outline" class="w-full lg:w-48">
-            <mat-label>Universe</mat-label>
-            <mat-select [(ngModel)]="selectedUniverse" (selectionChange)="onFilterChange()">
-                <mat-option *ngFor="let universe of universes" [value]="universe">
-                    {{ universe }}
+            <mat-label>Tipo de Personaje</mat-label>
+            <mat-select [(ngModel)]="selectedTypes" multiple (selectionChange)="onTypeSelectionChange()">
+                <mat-option *ngFor="let type of characterTypes" [value]="type">
+                    {{ getTypeLabel(type) }}
                 </mat-option>
             </mat-select>
+            <mat-hint *ngIf="selectedTypes.length > 0">{{ selectedTypes.length }} seleccionado(s)</mat-hint>
         </mat-form-field>
         
-        <!-- Alignment Filter -->
+        <!-- Context Filter -->
         <mat-form-field appearance="outline" class="w-full lg:w-48">
-            <mat-label>Alignment</mat-label>
-            <mat-select [(ngModel)]="selectedAlignment" (selectionChange)="onFilterChange()">
-                <mat-option value="">All</mat-option>
-                <mat-option value="Good">Good</mat-option>
-                <mat-option value="Neutral">Neutral</mat-option>
-                <mat-option value="Evil">Evil</mat-option>
+            <mat-label>Contexto</mat-label>
+            <mat-select [(ngModel)]="selectedContexts" multiple (selectionChange)="onContextSelectionChange()">
+                <mat-option *ngFor="let context of characterContexts" [value]="context">
+                    {{ getContextLabel(context) }}
+                </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="selectedContexts.length > 0">{{ selectedContexts.length }} seleccionado(s)</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <!-- Secondary Filters Row -->
+    <div class="flex flex-col lg:flex-row gap-4 items-center">
+        <!-- Status Filter -->
+        <mat-form-field appearance="outline" class="w-full lg:w-36">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onFilterChange()">
+                <mat-option value="all">Todos</mat-option>
+                <mat-option value="active">Activos</mat-option>
+                <mat-option value="inactive">Inactivos</mat-option>
             </mat-select>
         </mat-form-field>
+
+        <!-- Rating Range -->
+        <div class="flex items-center space-x-4 flex-1 min-w-0">
+            <span class="text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Rating:</span>
+            <mat-slider
+                class="flex-1"
+                [min]="0"
+                [max]="5"
+                [step]="0.5"
+                [value]="minRating"
+                (input)="minRating = $event.value || 0; onFilterChange()"
+                thumbLabel
+                tickInterval="1">
+            </mat-slider>
+            <span class="text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap">{{ minRating }}+</span>
+        </div>
         
-        <!-- Sort -->
-        <mat-form-field appearance="outline" class="w-full lg:w-48">
-            <mat-label>Sort by</mat-label>
-            <mat-select [(ngModel)]="sortBy" (selectionChange)="onSortChange()">
-                <mat-option value="name">Name</mat-option>
-                <mat-option value="universe">Universe</mat-option>
-                <mat-option value="rating">Rating</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <!-- Sort Options -->
+        <div class="flex items-center space-x-2">
+            <mat-form-field appearance="outline" class="w-32">
+                <mat-label>Ordenar por</mat-label>
+                <mat-select [(ngModel)]="sortBy" (selectionChange)="onSortChange()">
+                    <mat-option value="nombre">Nombre</mat-option>
+                    <mat-option value="tipo">Tipo</mat-option>
+                    <mat-option value="rating">Rating</mat-option>
+                    <mat-option value="fecha_creacion">Fecha</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button 
+                mat-icon-button
+                (click)="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'; onSortChange()"
+                [matTooltip]="sortOrder === 'asc' ? 'Orden Ascendente' : 'Orden Descendente'">
+                <mat-icon>{{ sortOrder === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Active Filters Chips -->
+    <div class="flex flex-wrap gap-2 mt-4" *ngIf="hasActiveFilters()">
+        <mat-chip-list>
+            <mat-chip *ngIf="searchTerm.trim()" 
+                     removable 
+                     (removed)="removeSearchFilter()">
+                Búsqueda: "{{ searchTerm }}"
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            
+            <mat-chip *ngFor="let type of selectedTypes" 
+                     removable 
+                     (removed)="removeTypeFilter(type)">
+                {{ getTypeLabel(type) }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            
+            <mat-chip *ngFor="let context of selectedContexts" 
+                     removable 
+                     (removed)="removeContextFilter(context)">
+                {{ getContextLabel(context) }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            
+            <mat-chip *ngIf="selectedStatus !== 'all'" 
+                     removable 
+                     (removed)="removeStatusFilter()">
+                Estado: {{ selectedStatus === 'active' ? 'Activos' : 'Inactivos' }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            
+            <mat-chip *ngIf="minRating > 0" 
+                     removable 
+                     (removed)="removeRatingFilter()">
+                Rating: {{ minRating }}+
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
     </div>
 </div>
 
 <!-- Results Info -->
 <div class="flex items-center justify-between mb-6">
     <p class="text-sm text-gray-600 dark:text-gray-400">
-        Showing {{ filteredCharacters.length }} of {{ totalCharacters }} characters
+        Mostrando {{ filteredCharacters.length }} de {{ totalCharacters }} personajes
+        <span *ngIf="isLoading" class="ml-2">
+            <mat-spinner diameter="16" class="inline-block"></mat-spinner>
+            Cargando...
+        </span>
     </p>
     <button 
         mat-button 
@@ -68,43 +162,64 @@
         (click)="resetFilters()"
         *ngIf="hasActiveFilters()">
         <mat-icon class="mr-2">clear</mat-icon>
-        Clear Filters
+        Limpiar Filtros
     </button>
 </div>
 
+<!-- Loading State -->
+<div class="flex justify-center py-16" *ngIf="isLoading && allCharacters.length === 0">
+    <div class="text-center">
+        <mat-spinner diameter="48"></mat-spinner>
+        <p class="text-gray-500 dark:text-gray-400 mt-4">Cargando personajes...</p>
+    </div>
+</div>
+
 <!-- Characters Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    <app-generic-card
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" *ngIf="!isLoading || allCharacters.length > 0">
+    <app-character-card
         *ngFor="let character of filteredCharacters; trackBy: trackByCharacter"
-        [data]="character"
-        [variant]="'featured'"
-        [showActionButton]="true"
-        [actionIcon]="getFavoriteIcon(character)"
-        [actionLabel]="getFavoriteLabel(character)"
-        [actionColor]="isFavorite(character) ? 'warn' : 'primary'"
-        [showFooterActions]="true"
-        [footerActions]="getCharacterActions(character)"
+        [character]="character"
+        [favoriteCharacters]="favorites"
+        [showActions]="true"
+        [showStats]="true"
         (cardClick)="onCharacterClick(character)"
-        (actionClick)="onFavoriteToggle(character)"
-        (footerActionClick)="onCharacterAction($event)">
-    </app-generic-card>
+        (actionClick)="onCharacterAction($event)">
+    </app-character-card>
 </div>
 
 <!-- Empty State -->
 <div 
     class="text-center py-16"
-    *ngIf="filteredCharacters.length === 0">
+    *ngIf="filteredCharacters.length === 0 && !isLoading">
     <mat-icon class="text-6xl text-gray-400 mb-4">people</mat-icon>
     <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
-        No characters found
+        No se encontraron personajes
     </h3>
-    <p class="text-gray-500 dark:text-gray-400 mb-6">
-        Try adjusting your search or filters to find characters.
-    </p>
-    <button 
-        mat-raised-button 
-        color="primary"
-        (click)="resetFilters()">
-        Reset Filters
-    </button>
+    <div *ngIf="shouldShowFiltersMessage()">
+        <p class="text-gray-500 dark:text-gray-400 mb-6">
+            Intenta ajustar tu búsqueda o filtros para encontrar personajes.
+        </p>
+        <button 
+            mat-raised-button 
+            color="primary"
+            (click)="resetFilters()"
+            *ngIf="shouldShowResetButton()">
+            <mat-icon class="mr-2">clear</mat-icon>
+            Limpiar Filtros
+        </button>
+    </div>
+    
+    <div *ngIf="shouldShowCreateMessage()">
+        <p class="text-gray-500 dark:text-gray-400 mb-6">
+            No tienes personajes creados aún. ¡Comienza creando tu primer personaje!
+        </p>
+        <button 
+            mat-raised-button 
+            color="accent"
+            (click)="createNewCharacter()"
+            *ngIf="shouldShowCreateButton()">
+            <mat-icon class="mr-2">add</mat-icon>
+            Crear tu Primer Personaje
+        </button>
+    </div>
 </div>

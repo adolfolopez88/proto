@@ -50,3 +50,52 @@ firebase-service-account.json
 .env
 .env.local
 .env.prod
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# CI/CD and Deployment
+*.pem
+*.key
+*.pub
+!id_*.pub
+github-actions-key*
+.ssh-keys/
+deployment-secrets/
+
+# Docker
+*.tar
+docker-compose.override.yml
+.docker/
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+.~*
+
+# Backup files
+*.backup
+*.bak
+backups/
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Scripts output
+scripts/deployment/*.tar
+scripts/deployment/*.log

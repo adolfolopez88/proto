@@ -50,3 +50,22 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+// Polyfills para addEventListener en navegadores antiguos o builds optimizados
+if (typeof window !== 'undefined') {
+    if (!window.addEventListener) {
+        (window as any).addEventListener = function() {};
+    }
+    if (!window.removeEventListener) {
+        (window as any).removeEventListener = function() {};
+    }
+}
+
+if (typeof document !== 'undefined') {
+    if (!document.addEventListener) {
+        (document as any).addEventListener = function() {};
+    }
+    if (!document.removeEventListener) {
+        (document as any).removeEventListener = function() {};
+    }
+}

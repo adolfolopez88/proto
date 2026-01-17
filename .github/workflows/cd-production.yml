@@ -1,0 +1,251 @@
+name: CD - Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      skip-tests:
+        description: 'Skip tests before deploy'
+        required: false
+        default: 'false'
+
+env:
+  DOCKER_IMAGE_NAME: fuse-app
+  DOCKER_CONTAINER_NAME: fuse-app
+  DEPLOY_PATH: /opt/fuse-app
+
+jobs:
+  # Job 1: Build and Push Docker Image
+  build-and-push:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run tests
+        if: github.event.inputs.skip-tests != 'true'
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Run lint
+        if: github.event.inputs.skip-tests != 'true'
+        run: npm run lint
+
+      - name: Build application
+        run: npm run build:prod
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and export Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+          outputs: type=docker,dest=/tmp/image.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: /tmp/image.tar
+          retention-days: 1
+
+  # Job 2: Deploy to Digital Ocean
+  deploy:
+    name: Deploy to Digital Ocean
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment:
+      name: production
+      url: http://${{ secrets.DO_DROPLET_IP }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image
+          path: /tmp
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+
+      - name: Add Digital Ocean to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.DO_DROPLET_IP }} >> ~/.ssh/known_hosts
+
+      - name: Copy Docker image to server
+        run: |
+          scp /tmp/image.tar root@${{ secrets.DO_DROPLET_IP }}:/tmp/fuse-app-${{ github.sha }}.tar
+
+      - name: Copy deployment files
+        run: |
+          scp docker-compose.yml root@${{ secrets.DO_DROPLET_IP }}:${{ env.DEPLOY_PATH }}/
+          scp nginx.conf root@${{ secrets.DO_DROPLET_IP }}:${{ env.DEPLOY_PATH }}/
+          scp scripts/deployment/deploy-production.sh root@${{ secrets.DO_DROPLET_IP }}:${{ env.DEPLOY_PATH }}/
+          scp scripts/deployment/health-check.sh root@${{ secrets.DO_DROPLET_IP }}:${{ env.DEPLOY_PATH }}/
+
+      - name: Deploy application
+        run: |
+          ssh root@${{ secrets.DO_DROPLET_IP }} << 'ENDSSH'
+            set -e
+
+            cd ${{ env.DEPLOY_PATH }}
+
+            # Load new Docker image
+            docker load -i /tmp/fuse-app-${{ github.sha }}.tar
+            docker tag ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} ${{ env.DOCKER_IMAGE_NAME }}:latest
+
+            # Backup current container (for rollback)
+            if [ "$(docker ps -q -f name=${{ env.DOCKER_CONTAINER_NAME }})" ]; then
+              docker commit ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_IMAGE_NAME }}:backup-$(date +%Y%m%d-%H%M%S)
+            fi
+
+            # Stop and remove old container
+            docker-compose down
+
+            # Start new container
+            docker-compose up -d
+
+            # Wait for container to be ready
+            echo "Waiting for container to be ready..."
+            sleep 10
+
+            # Cleanup old images (keep last 3)
+            docker images ${{ env.DOCKER_IMAGE_NAME }} --format "{{.ID}} {{.CreatedAt}}" | \
+              sort -rk 2 | \
+              awk 'NR>3 {print $1}' | \
+              xargs -r docker rmi -f || true
+
+            # Cleanup temp file
+            rm -f /tmp/fuse-app-${{ github.sha }}.tar
+
+            echo "Deployment completed successfully"
+          ENDSSH
+
+      - name: Run health checks
+        run: |
+          ssh root@${{ secrets.DO_DROPLET_IP }} << 'ENDSSH'
+            cd ${{ env.DEPLOY_PATH }}
+            chmod +x health-check.sh
+            ./health-check.sh
+          ENDSSH
+
+      - name: Verify deployment
+        run: |
+          MAX_RETRIES=5
+          RETRY_DELAY=10
+
+          for i in $(seq 1 $MAX_RETRIES); do
+            echo "Attempt $i of $MAX_RETRIES..."
+
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://${{ secrets.DO_DROPLET_IP }})
+
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Deployment verified successfully!"
+              exit 0
+            fi
+
+            echo "⚠️ Got HTTP $HTTP_CODE, retrying in ${RETRY_DELAY}s..."
+            sleep $RETRY_DELAY
+          done
+
+          echo "❌ Deployment verification failed!"
+          exit 1
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          ssh root@${{ secrets.DO_DROPLET_IP }} << 'ENDSSH'
+            cd ${{ env.DEPLOY_PATH }}
+
+            echo "🔄 Rolling back to previous version..."
+
+            # Find latest backup image
+            BACKUP_IMAGE=$(docker images ${{ env.DOCKER_IMAGE_NAME }} --format "{{.Repository}}:{{.Tag}}" | grep backup | head -n 1)
+
+            if [ -n "$BACKUP_IMAGE" ]; then
+              docker tag $BACKUP_IMAGE ${{ env.DOCKER_IMAGE_NAME }}:latest
+              docker-compose down
+              docker-compose up -d
+              echo "✅ Rollback completed"
+            else
+              echo "❌ No backup image found!"
+              exit 1
+            fi
+          ENDSSH
+
+      - name: Send deployment notification
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "✅ Production deployment successful!"
+            echo "🌐 Application URL: http://${{ secrets.DO_DROPLET_IP }}"
+            echo "📝 Commit: ${{ github.sha }}"
+            echo "👤 Author: ${{ github.actor }}"
+          else
+            echo "❌ Production deployment failed!"
+            echo "📝 Commit: ${{ github.sha }}"
+          fi
+
+  # Job 3: Post-deployment monitoring
+  monitor:
+    name: Monitor Deployment
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: success()
+
+    steps:
+      - name: Monitor application for 2 minutes
+        run: |
+          echo "📊 Monitoring application health..."
+
+          for i in {1..12}; do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://${{ secrets.DO_DROPLET_IP }})
+
+            if [ "$HTTP_CODE" != "200" ]; then
+              echo "❌ Health check failed at $(date): HTTP $HTTP_CODE"
+              exit 1
+            fi
+
+            echo "✅ Health check passed ($i/12): HTTP $HTTP_CODE"
+            sleep 10
+          done
+
+          echo "✅ Monitoring completed successfully!"

@@ -22,9 +22,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 icon : 'heroicons_outline:shopping-bag',
                 link : '/cards/products'
-            }
-            
-            /*,
+            },
             {
                 id   : 'cards.postcards',
                 title: 'Postcards',
@@ -38,7 +36,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 icon : 'heroicons_outline:user-group',
                 link : '/cards/characters'
-            }*/
+            }
         ]
     },
     {
@@ -68,6 +66,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:fire',
         link : '/prompt-management'
+    },
+    {
+        id   : 'characters',
+        title: 'Characters',
+        type : 'basic',
+        icon : 'heroicons_outline:user-group',
+        link : '/characters'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -128,6 +133,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chat-bubble-left-right',
         link : '/messaging'
+    },
+    {
+        id   : 'characters',
+        title: 'Characters',
+        type : 'basic',
+        icon : 'heroicons_outline:user-group',
+        link : '/characters'
     }
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -188,6 +200,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chat-bubble-left-right',
         link : '/messaging'
+    },
+    {
+        id   : 'characters',
+        title: 'Characters',
+        type : 'basic',
+        icon : 'heroicons_outline:user-group',
+        link : '/characters'
     }
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
@@ -248,5 +267,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chat-bubble-left-right',
         link : '/messaging'
+    },
+    {
+        id   : 'characters',
+        title: 'Characters',
+        type : 'basic',
+        icon : 'heroicons_outline:user-group',
+        link : '/characters'
     }
 ];

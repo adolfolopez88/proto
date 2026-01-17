@@ -1,0 +1,240 @@
+.character-card {
+    @apply transform-gpu;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        @apply -translate-y-1;
+        box-shadow: 
+            0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    &.compact {
+        .character-card {
+            @apply max-w-sm;
+        }
+    }
+
+    // Character type colors
+    .text-persona {
+        @apply text-blue-600 dark:text-blue-400;
+    }
+
+    .text-objeto {
+        @apply text-green-600 dark:text-green-400;
+    }
+
+    .text-criatura {
+        @apply text-purple-600 dark:text-purple-400;
+    }
+
+    .text-entidad {
+        @apply text-orange-600 dark:text-orange-400;
+    }
+
+    // Personality traits styling
+    .personality-trait {
+        @apply inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full font-medium;
+        
+        &:hover {
+            @apply bg-blue-200 dark:bg-blue-800;
+        }
+    }
+
+    .functionality-tag {
+        @apply inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full font-medium;
+        
+        &:hover {
+            @apply bg-green-200 dark:bg-green-800;
+        }
+    }
+
+    // Stats section
+    .stats-section {
+        .stat-item {
+            @apply flex items-center space-x-1 text-xs;
+            
+            .stat-value {
+                @apply font-semibold text-gray-900 dark:text-white;
+            }
+            
+            .stat-label {
+                @apply text-gray-500 dark:text-gray-400;
+            }
+        }
+    }
+
+    // Rating stars
+    .rating-stars {
+        .star {
+            &.filled {
+                @apply text-yellow-400;
+            }
+            
+            &.half {
+                @apply text-yellow-300;
+            }
+            
+            &.empty {
+                @apply text-gray-300 dark:text-gray-600;
+            }
+        }
+    }
+
+    // Action buttons
+    .character-actions {
+        .action-button {
+            @apply transition-colors duration-200;
+            
+            &:hover {
+                @apply bg-gray-50 dark:bg-gray-700;
+            }
+        }
+        
+        .delete-button {
+            &:hover {
+                @apply bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400;
+            }
+        }
+    }
+
+    // Image loading and error states
+    .character-image {
+        &.loading {
+            @apply bg-gray-200 dark:bg-gray-700 animate-pulse;
+        }
+        
+        &.error {
+            @apply bg-gray-100 dark:bg-gray-800;
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 0, 0, 0.1) 10px,
+                rgba(0, 0, 0, 0.1) 20px
+            );
+        }
+    }
+
+    // Badge styles
+    .type-badge, .context-badge, .status-badge {
+        @apply backdrop-blur-sm border-0;
+        backdrop-filter: blur(8px);
+    }
+
+    // Truncation utilities
+    .line-clamp-1 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+
+    .line-clamp-2 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+
+    .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+}
+
+// Dark mode specific adjustments
+@media (prefers-color-scheme: dark) {
+    .character-card {
+        &:hover {
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.25),
+                0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+    .character-card {
+        .character-image {
+            @apply h-40;
+        }
+        
+        .card-content {
+            @apply p-3;
+        }
+        
+        .character-actions {
+            @apply flex-col space-y-2 space-x-0;
+            
+            .primary-actions, .secondary-actions {
+                @apply w-full justify-center;
+            }
+        }
+    }
+}
+
+// Print styles
+@media print {
+    .character-card {
+        @apply break-inside-avoid shadow-none border border-gray-300;
+        
+        .character-actions {
+            @apply hidden;
+        }
+        
+        .hover-overlay {
+            @apply hidden;
+        }
+    }
+}
+
+// Animation for favorite button
+.favorite-button {
+    transition: all 0.2s ease-in-out;
+    
+    &.is-favorite {
+        animation: heartbeat 0.6s ease-in-out;
+    }
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1.1); }
+    75% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+// Loading skeleton for cards
+.character-card-skeleton {
+    @apply bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden animate-pulse;
+    
+    .skeleton-image {
+        @apply h-48 bg-gray-200 dark:bg-gray-700;
+    }
+    
+    .skeleton-content {
+        @apply p-4 space-y-3;
+        
+        .skeleton-line {
+            @apply h-4 bg-gray-200 dark:bg-gray-700 rounded;
+            
+            &.w-3-4 { @apply w-3/4; }
+            &.w-1-2 { @apply w-1/2; }
+            &.w-full { width: 100%; }
+        }
+    }
+}
+
+// Focus styles for accessibility
+.character-card:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 dark:ring-offset-gray-900;
+}
+
+.character-actions button:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-1;
+}
