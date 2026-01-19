@@ -88,7 +88,6 @@ jobs:
     needs: build-and-push
     environment:
       name: production
-      url: http://${{ secrets.DO_DROPLET_IP }}
 
     steps:
       - name: Checkout code
